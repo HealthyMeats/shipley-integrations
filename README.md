@@ -1,7 +1,7 @@
 # Shipley Farms Integrations
 
 Open tools for building on top of [Shipley Farms](https://shipleyfarmsbeef.com), a family
-cattle operation in Boone, North Carolina.
+cattle operation in Vilas, North Carolina.
 
 We run our storefront on ERPNext and we would rather build it with other people than alone.
 This repository is for **your** code: connectors, clients, and tools that talk to our catalog.
