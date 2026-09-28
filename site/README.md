@@ -18,9 +18,9 @@ one customers buy beef from.
 4. On merge, an operator runs the publisher script against production.
 5. It is live.
 
-Step 4 is a human on purpose. Our store has no staging environment and no automatic deploys,
-so a person looks at every change before it reaches a customer. That is not distrust of you; it
-is the same rule we apply to ourselves.
+Step 4 is a human on purpose. A member of our team reviews and publishes every change before
+it reaches a customer. That is not distrust of you; it is the same rule we apply to ourselves,
+and it is why nothing in this repository can reach the live site on its own.
 
 ## What you can change here
 

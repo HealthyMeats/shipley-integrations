@@ -14,7 +14,8 @@ GET https://shipleyfarmsbeef.com/files/catalog.json
 No authentication. No key. No rate limit. It is a static file, so reading it costs us nothing
 and you can fetch it as often as you find useful.
 
-It is a [schema.org](https://schema.org) `ItemList` of `Product` objects, currently 234 items.
+It is a [schema.org](https://schema.org) `ItemList` of `Product` objects. Read
+`numberOfItems` rather than hardcoding a count; the catalog changes.
 
 ### A product record
 
@@ -49,12 +50,12 @@ It is a [schema.org](https://schema.org) `ItemList` of `Product` objects, curren
 | `description` | yes | |
 | `image` | yes | Absolute. Served at up to 768px; our uploader downscales |
 | `offers.price` | yes | USD. **Read the catch weight section below before you show this** |
-| `x_shipley_catch_weight` | no | Present and `true` on about 45 items |
+| `x_shipley_catch_weight` | no | Present and `true` on catch weight items |
 | `x_shipley_note` | no | Free text when an item needs a caveat |
 
 ### Catch weight: the one thing to get right
 
-About 45 items are sold **by the pound**, and beef does not come in exact pounds. For those
+Some items are sold **by the pound**, and beef does not come in exact pounds. For those
 items `offers.price` is an **estimate based on average weight**, and the customer's final
 charge is the actual weight packed, which may be higher or lower.
 

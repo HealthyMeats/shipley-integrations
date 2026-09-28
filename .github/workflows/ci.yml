@@ -20,6 +20,9 @@ jobs:
       - name: Validate integration manifests
         run: python3 tools/validate.py
 
+      - name: No business-sensitive disclosure
+        run: python3 tools/validate_disclosure.py
+
       - name: Validate live site pages
         run: python3 tools/validate_site.py
 

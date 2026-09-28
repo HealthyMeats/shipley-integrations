@@ -21,6 +21,9 @@ works against public, documented data instead.
 | Make your first contribution | [`site/helloworld.html`](site/helloworld.html), live at [/helloworld](https://shipleyfarmsbeef.com/helloworld) |
 | Report a bug in our store | [Open an issue](../../issues/new/choose) |
 | Report a security problem | [`SECURITY.md`](SECURITY.md), **not** a public issue |
+| Find a project to build | [`docs/PROJECTS.md`](docs/PROJECTS.md) |
+| Use this with a class | [`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md) |
+| Check this cannot break the farm | [`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md) |
 | Talk to us without GitHub | <https://shipleyfarmsbeef.com/developers> |
 
 ## Never sent a pull request before?
@@ -32,12 +35,25 @@ ten minutes.
 
 That page is a real page on a working farm's storefront, not a sandbox. See [`site/`](site/).
 
+## Students, classes and interns
+
+**Contributions here are citable.** A merged pull request is public and permanent, your name
+goes in [`CONTRIBUTORS.md`](CONTRIBUTORS.md), and if someone asks us to confirm you contributed,
+we will. See what we will and will not say about your work in that file.
+
+Twenty project briefs at three difficulty levels, including analysis and design work for
+security and IT courses, are in [`docs/PROJECTS.md`](docs/PROJECTS.md). Instructors, start at
+[`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md).
+
+Nothing you do here can reach our live systems, which is deliberate and is explained in
+[`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md).
+
 ## What is open
 
 Today there is one stable, public surface: a schema.org product feed at
-**<https://shipleyfarmsbeef.com/files/catalog.json>**. It covers 234 products with SKU, name,
-URL, category, brand, description, image, and price. It is a static file, so reading it costs
-us nothing and you can poll it as often as you like.
+**<https://shipleyfarmsbeef.com/files/catalog.json>**. Every product, with SKU, name, URL,
+category, brand, description, image, and price. It is a static file, so reading it costs us
+nothing and you can poll it as often as you like.
 
 A scoped **partner API** for wholesale ordering (your prices, your orders, your invoices,
 your tracking) is in design. If you supply restaurants, run one, or operate another store that

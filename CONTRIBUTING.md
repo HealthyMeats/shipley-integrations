@@ -33,6 +33,11 @@ a patch we have to reverse engineer.
 - **Dependencies we cannot audit.** Keep integrations light. If you need a large framework,
   say why in the issue first.
 - **Anything requiring credentials to run in CI.** Tests must pass against fixture data.
+- **Figures about the business.** This repository is public and `site/` files are published as
+  live pages, so please do not add counts of customers, orders or staff, revenue or margin
+  figures, or statements about how much traffic our systems can take. Product names and prices
+  are fine; they are already public. CI checks this (`tools/validate_disclosure.py`) and will
+  tell you exactly what tripped it.
 
 If you believe you have found a bug in our internal code and you have a fix in mind, describe
 it in an issue. Link a gist or your own fork rather than pasting code. We will take it from

@@ -49,8 +49,8 @@ useful to the next person than letting them find out the hard way.
 - **Cache.** Do not re-fetch `catalog.json` on every request. See
   [`examples/catalog_client.py`](../examples/catalog_client.py).
 - **Identify yourself** in a `User-Agent`.
-- **Label catch weight prices as estimates.** About 45 of our products are sold by the pound
-  and the listed price is not the final charge. See [`docs/API.md`](../docs/API.md).
+- **Label catch weight prices as estimates.** Items flagged `x_shipley_catch_weight` are sold
+  by the pound and the listed price is not the final charge. See [`docs/API.md`](../docs/API.md).
 - **No secrets in the repository.** Not yours, not ours, not in a test fixture.
 - **Tests run offline.** Use `fixtures/catalog.sample.json`. CI has no network credentials and
   never will.

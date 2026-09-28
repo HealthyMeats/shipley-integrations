@@ -1,0 +1,41 @@
+name: Class, course or internship
+description: You teach, or you are a student wanting to use this for coursework
+labels: ["education"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please read [docs/FOR-EDUCATORS.md](../blob/main/docs/FOR-EDUCATORS.md) first, and
+        [docs/HOW-IT-STAYS-SEPARATE.md](../blob/main/docs/HOW-IT-STAYS-SEPARATE.md) if you need
+        to know why students cannot break anything.
+  - type: dropdown
+    id: who
+    attributes:
+      label: Who are you?
+      options: ["An instructor", "A student", "A student group or club", "Something else"]
+    validations: { required: true }
+  - type: input
+    id: course
+    attributes:
+      label: Course or programme
+      placeholder: e.g. CS 3667 Software Engineering, or a cybersecurity capstone
+  - type: input
+    id: when
+    attributes:
+      label: When does it run, and roughly how many people?
+      placeholder: Spring semester, about 25 students in pairs
+  - type: textarea
+    id: goal
+    attributes:
+      label: What do you want students to learn or build?
+      description: Naming a brief from docs/PROJECTS.md is fine, so is describing your own.
+    validations: { required: true }
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Before you submit
+      options:
+        - label: I understand no live testing, scanning, or load generation against the farm's systems is permitted
+          required: true
+        - label: I understand a merged pull request is our decision, so student grades should not depend on it
+          required: true
