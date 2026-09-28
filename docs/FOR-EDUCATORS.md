@@ -2,7 +2,7 @@
 
 **A real business, a real codebase, and real users, available to your class for free.**
 
-Shipley Farms is a family cattle operation in Boone, North Carolina. We sell beef online and
+Shipley Farms is a family cattle operation in Vilas, North Carolina. We sell beef online and
 from a store on the farm. Our public tools are open, and we would rather students learn on them
 than on another to-do app.
 
@@ -82,6 +82,6 @@ useful to us, which depends on our priorities as much as on the student's work. 
 Open an issue with the `education` label, or email <gray@shipleyfarmsbeef.com>. Tell us the
 course, roughly how many students, and when it runs.
 
-We are in Boone. If you are local, we are open to a farm visit for a class, and to a
+We are just outside Boone. If you are local, we are open to a farm visit for a class, and to a
 conversation about what would genuinely help your students rather than what we happen to want
 built.
