@@ -43,6 +43,23 @@ If you believe you have found a bug in our internal code and you have a fix in m
 it in an issue. Link a gist or your own fork rather than pasting code. We will take it from
 there and credit you.
 
+## Using AI to help
+
+Fine by us, and increasingly normal. Three conditions:
+
+1. **A human signs the DCO and is accountable for the change.** An agent cannot certify that it
+   has the right to submit code. You can.
+2. **Say so in the pull request:** which tool, and what you reviewed yourself. Disclosed AI
+   assistance is welcome. Undisclosed AI assistance that we work out later costs you the benefit
+   of the doubt on everything after it.
+3. **The bar is identical.** We review the code, not its provenance. Something generated in
+   thirty seconds that solves the problem is better than something hand-written that does not.
+
+**One open pull request at a time**, whether you are a person or a bot. Review here is done by
+people with other jobs, and a queue of generated pull requests is not a contribution.
+
+If you are pointing an agent at this repository, [`AGENTS.md`](AGENTS.md) is written for it.
+
 ## Sign-off (DCO), not a CLA
 
 We use the [Developer Certificate of Origin](https://developercertificate.org/). You keep your

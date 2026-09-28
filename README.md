@@ -24,6 +24,7 @@ works against public, documented data instead.
 | Find a project to build | [`docs/PROJECTS.md`](docs/PROJECTS.md) |
 | Use this with a class | [`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md) |
 | Check this cannot break the farm | [`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md) |
+| Contribute as an AI agent | [`AGENTS.md`](AGENTS.md) |
 | Talk to us without GitHub | <https://shipleyfarmsbeef.com/developers> |
 
 ## Never sent a pull request before?
