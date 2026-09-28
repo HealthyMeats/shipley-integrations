@@ -136,5 +136,5 @@ rather design this against a real integration than guess at one.
 
 ## Questions
 
-Open an issue, or use <https://shipleyfarmsbeef.com/developers> if you would rather not use
+Open an issue, or use <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=api-docs> if you would rather not use
 GitHub.

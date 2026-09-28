@@ -51,7 +51,7 @@ a class to this.
 ## Suggested shapes
 
 **One class session.** Students fix the deliberate typo on
-<https://shipleyfarmsbeef.com/helloworld> and open their first pull request. Most students have
+<https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=educators> and open their first pull request. Most students have
 never opened one. Teaching the mechanics on something that actually ships lands differently than
 teaching it on a sandbox repository.
 

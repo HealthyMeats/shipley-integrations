@@ -21,7 +21,7 @@ fails review.
 ## Starter: a few hours
 
 ### S1. Fix the deliberate typo
-There is exactly one misspelling on <https://shipleyfarmsbeef.com/helloworld>, planted on
+There is exactly one misspelling on <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=projects>, planted on
 purpose. Find it, fix [`site/helloworld.html`](../site/helloworld.html), open a pull request.
 **Done when:** merged. That is your name in [`CONTRIBUTORS.md`](../CONTRIBUTORS.md).
 

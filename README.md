@@ -1,6 +1,6 @@
 # Shipley Farms Integrations
 
-Open tools for building on top of [Shipley Farms](https://shipleyfarmsbeef.com), a family
+Open tools for building on top of [Shipley Farms](https://shipleyfarmsbeef.com/?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme), a family
 cattle operation in Vilas, North Carolina.
 
 We run our storefront on ERPNext and we would rather build it with other people than alone.
@@ -18,18 +18,18 @@ works against public, documented data instead.
 | Read our product catalog | [`docs/API.md`](docs/API.md) |
 | See working code | [`examples/`](examples/) |
 | Publish an integration | [`integrations/`](integrations/) and [`CONTRIBUTING.md`](CONTRIBUTING.md) |
-| Make your first contribution | [`site/helloworld.html`](site/helloworld.html), live at [/helloworld](https://shipleyfarmsbeef.com/helloworld) |
+| Make your first contribution | [`site/helloworld.html`](site/helloworld.html), live at [/helloworld](https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) |
 | Report a bug in our store | [Open an issue](../../issues/new/choose) |
 | Report a security problem | [`SECURITY.md`](SECURITY.md), **not** a public issue |
 | Find a project to build | [`docs/PROJECTS.md`](docs/PROJECTS.md) |
 | Use this with a class | [`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md) |
 | Check this cannot break the farm | [`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md) |
 | Contribute as an AI agent | [`AGENTS.md`](AGENTS.md) |
-| Talk to us without GitHub | <https://shipleyfarmsbeef.com/developers> |
+| Talk to us without GitHub | <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme> |
 
 ## Never sent a pull request before?
 
-Start at **<https://shipleyfarmsbeef.com/helloworld>**. There is exactly one deliberate spelling
+Start at **<https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme>**. There is exactly one deliberate spelling
 mistake on that page, and [the file behind it](site/helloworld.html) is in this repository. Fix
 it, open a pull request, and when we merge it the live page changes. No install, no setup, about
 ten minutes.

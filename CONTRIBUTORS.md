@@ -17,7 +17,7 @@ being on.
 ## How to get on this list
 
 Have a pull request merged. That is the whole requirement. There is no minimum size, and the
-first task on <https://shipleyfarmsbeef.com/helloworld> counts.
+first task on <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=contributors> counts.
 
 Maintainers: add a row when you merge, in the same commit as the merge where practical. Use the
 contributor's preferred name and link their GitHub profile if they want it linked. Ask first

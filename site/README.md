@@ -1,6 +1,6 @@
 # site/
 
-**The files in here are live pages on <https://shipleyfarmsbeef.com>.**
+**The files in here are live pages on <https://shipleyfarmsbeef.com/?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=site-readme>.**
 
 This is the part most open source projects cannot offer you. A change you make here does not go
 into a demo or a sandbox. When it is merged, it appears on a working farm's actual website, the
@@ -8,7 +8,7 @@ one customers buy beef from.
 
 | File | Live at |
 |---|---|
-| `helloworld.html` | <https://shipleyfarmsbeef.com/helloworld> |
+| `helloworld.html` | <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=site-readme> |
 
 ## How a change gets from here to the live site
 

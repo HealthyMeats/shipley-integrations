@@ -88,4 +88,4 @@ We do not require tests for an integration you own, but we will not debug one th
 
 ## Not on GitHub?
 
-Use <https://shipleyfarmsbeef.com/developers>. It reaches the same people.
+Use <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=contributing>. It reaches the same people.
