@@ -1,0 +1,54 @@
+name: Connect my food business
+description: You sell food and want to carry or resell Shipley Farms beef
+labels: ["partner-api"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please read [docs/FOR-BUSINESSES.md](../blob/main/docs/FOR-BUSINESSES.md) first. The
+        short version: you can display our products today, you cannot order programmatically
+        yet, and the commercial relationship comes before the integration.
+
+        **If you would rather not discuss your business in public, email
+        gray@shipleyfarmsbeef.com instead. This tracker is public.**
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of business?
+      options:
+        - Restaurant or kitchen
+        - Restaurant group or multiple locations
+        - Butcher, grocer or farm store
+        - Distributor or wholesaler
+        - Online meat or food seller
+        - Meal kit or subscription box
+        - Something else
+    validations: { required: true }
+  - type: input
+    id: system
+    attributes:
+      label: What system would connect to us?
+      placeholder: Toast, Square, Shopify, an ERP, a spreadsheet, something we wrote
+  - type: textarea
+    id: workflow
+    attributes:
+      label: How do you order from a supplier today?
+      description: |
+        Walk us through it in the order it happens, including the annoying parts. This is the
+        single most useful thing you can tell us, because we would rather design around a real
+        workflow than an imagined one.
+    validations: { required: true }
+  - type: textarea
+    id: need
+    attributes:
+      label: What would you need the API to do?
+      placeholder: See my pricing, place a standing order, check what shipped, pull invoices
+  - type: checkboxes
+    id: understood
+    attributes:
+      label: Before you submit
+      options:
+        - label: I understand the partner API does not exist yet and there is no delivery date
+          required: true
+        - label: I understand pricing and terms are set per account by a person, not published here
+          required: true

@@ -11,6 +11,28 @@ What you contribute here stays yours, under your name, under the MIT license.
 source is private, because it holds live payment configuration. Everything in this repository
 works against public, documented data instead.
 
+## What this is today, and what it is not
+
+Read this before you build anything.
+
+| | Status |
+|---|---|
+| Read our full product list, with retail prices | **Works now.** One public file, no key |
+| Display our products in your own site, menu or app | **Works now** |
+| See wholesale pricing for your business | **Not available.** Pricing is per-account and never public |
+| Check stock, pack sizes, lead times, minimums | **Not available yet** |
+| Place an order, or check an order's status | **Not available yet.** There is no ordering endpoint |
+| Authenticate as a partner | **Not available yet** |
+
+So: you can build something that **shows** our beef. You cannot yet build something that
+**buys** it. The authenticated partner API that would change that is in design, and we would
+rather design it around a real business than guess. If that is you, see
+[`docs/FOR-BUSINESSES.md`](docs/FOR-BUSINESSES.md).
+
+One more thing worth knowing up front: the catalog file is a **periodic snapshot**, regenerated
+by hand rather than live. Read `x_shipley_provenance.generated_at_utc` and treat the prices as
+indicative, not as a quote.
+
 ## Start here
 
 | If you want to... | Go to |
@@ -25,6 +47,7 @@ works against public, documented data instead.
 | Use this with a class | [`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md) |
 | Check this cannot break the farm | [`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md) |
 | Contribute as an AI agent | [`AGENTS.md`](AGENTS.md) |
+| Connect your food business to us | [`docs/FOR-BUSINESSES.md`](docs/FOR-BUSINESSES.md) |
 | Talk to us without GitHub | <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme> |
 
 ## Never sent a pull request before?

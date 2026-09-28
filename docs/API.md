@@ -2,8 +2,13 @@
 
 Last reviewed 2026-09-28.
 
-There is exactly one stable public surface today. This document describes it honestly,
-including what it will not do for you.
+There is exactly one stable public surface today: a **read-only product catalog**. This document
+describes it honestly, including what it will not do for you.
+
+> **This is not a transactional API.** There is no ordering endpoint, no authentication, no
+> stock, no wholesale pricing, and no order status. You can read what we sell. You cannot buy it
+> programmatically, and nothing here will let you. If you need that, you need the partner API,
+> which does not exist yet: see [`FOR-BUSINESSES.md`](FOR-BUSINESSES.md).
 
 ## The catalog feed
 
