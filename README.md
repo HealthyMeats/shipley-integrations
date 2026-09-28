@@ -38,6 +38,8 @@ All public, all live, no key and no signup.
 |---|---|
 | [Partner API demo](https://healthymeats.github.io/shipley-integrations/demo/) | The ordering API we are designing, running in your browser on sample data |
 | [/helloworld](https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | The front door. Fix one typo and you have contributed |
+| [/directory](https://shipleyfarmsbeef.com/directory?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | Every page on the site, generated from the live route tables |
+| [/contact-form](https://shipleyfarmsbeef.com/contact-form?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | Reach a person, no account needed |
 | [/status](https://shipleyfarmsbeef.com/status?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | Is the store up |
 | [/catalog](https://shipleyfarmsbeef.com/catalog?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | The catalog as a readable page |
 | [/all-products](https://shipleyfarmsbeef.com/all-products?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | The storefront itself |
