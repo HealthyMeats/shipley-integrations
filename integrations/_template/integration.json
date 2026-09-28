@@ -1,0 +1,9 @@
+{
+  "name": "_template",
+  "summary": "One sentence: what this connects, and to what.",
+  "maintainer": { "name": "Your Name", "contact": "you@example.com" },
+  "status": "experimental",
+  "language": "python",
+  "uses": ["catalog.json"],
+  "license": "MIT"
+}

@@ -1,0 +1,43 @@
+name: Integration idea or partner API request
+description: You want to connect something to Shipley Farms
+labels: ["integration"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us what you are trying to do. You do not need a plan, or code, or a company.
+  - type: textarea
+    id: goal
+    attributes:
+      label: What are you trying to build or connect?
+    validations: { required: true }
+  - type: input
+    id: system
+    attributes:
+      label: What system is on the other end?
+      placeholder: Toast, Square, Shopify, a spreadsheet, something I am writing myself
+  - type: dropdown
+    id: who
+    attributes:
+      label: Which of these is closest to you?
+      options:
+        - A developer building something for fun or for a client
+        - A restaurant or kitchen that would buy from Shipley Farms
+        - A store or distributor that would resell Shipley Farms beef
+        - Another farm with the same problem
+        - Something else
+    validations: { required: true }
+  - type: textarea
+    id: data
+    attributes:
+      label: What data would you need from us?
+      description: |
+        Products and prices are already public at /files/catalog.json. If you need ordering,
+        your own pricing, or order status, say so. That is the partner API and it is in design.
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Before you submit
+      options:
+        - label: I have read docs/API.md and the rate guidance in SECURITY.md
+          required: true

@@ -1,0 +1,38 @@
+name: Bug in the Shipley Farms store
+description: Something on shipleyfarmsbeef.com is broken or wrong
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Bug reports are genuinely valuable to us and you do not need a fix to file one.
+
+        **If this is a security problem, stop and email gray@shipleyfarmsbeef.com instead.**
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      placeholder: What you did, and what the site did back.
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+    validations: { required: true }
+  - type: input
+    id: where
+    attributes:
+      label: Where?
+      placeholder: https://shipleyfarmsbeef.com/...
+  - type: dropdown
+    id: device
+    attributes:
+      label: What were you using?
+      options: ["Phone", "Tablet", "Desktop or laptop", "Something else"]
+  - type: textarea
+    id: fix
+    attributes:
+      label: Do you have a fix in mind? (optional)
+      description: |
+        Link a gist or a branch rather than pasting code. Our store's own source is private,
+        so we will take it from there and credit you.

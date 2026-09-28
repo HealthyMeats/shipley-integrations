@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security problem
+    url: https://github.com/HealthyMeats/shipley-integrations/blob/main/SECURITY.md
+    about: Please email gray@shipleyfarmsbeef.com instead of opening a public issue.
+  - name: Not on GitHub?
+    url: https://shipleyfarmsbeef.com/developers
+    about: Send us the same thing through the website. It reaches the same people.

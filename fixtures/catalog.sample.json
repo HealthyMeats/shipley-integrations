@@ -1,0 +1,316 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Shipley Farms product catalog",
+  "url": "https://shipleyfarmsbeef.com/all-products",
+  "numberOfItems": 12,
+  "x_shipley_provenance": {
+    "generated_at_utc": "2026-09-26T00:59:05Z",
+    "generated_from": "https://shipleyfarmsbeef.com/api/method/webshop.webshop.api.get_product_filter_data",
+    "snapshot": true,
+    "freshness_warning": "This file is a point-in-time snapshot, not a live endpoint. Prices, product availability, and the product list itself change. Re-read the product url before quoting a price or placing an order.",
+    "catch_weight_items": 45,
+    "product_groups_not_directly_purchasable": 1,
+    "items_without_a_published_price": 0,
+    "availability_policy": "availability is present only for items explicitly on backorder. Its absence means unknown, not in stock.",
+    "checkout_policy": "Agents may read this catalog freely. Payment requires contemporaneous human approval; do not finalize a purchase by scripted form fill or browser automation. See https://shipleyfarmsbeef.com/agents.md.",
+    "note": "Trimmed 12-item sample for tests and offline examples. Not a live feed."
+  },
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Product",
+        "sku": "SS1231",
+        "name": "Signature Huston Ribeye",
+        "url": "https://shipleyfarmsbeef.com/products/ss1231",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "~12 Our signature steak. Well-marbled and full of flavor, named after our late friend Huston.",
+        "image": "https://shipleyfarmsbeef.com/files/SS1231.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss1231",
+          "priceCurrency": "USD",
+          "price": 60.3,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Product",
+        "sku": "SS1430",
+        "name": "Signature Flat Iron Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss1430",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "Dry-aged flat iron, richly marbled, and tender enough to rival cuts that cost a good deal more.",
+        "image": "https://shipleyfarmsbeef.com/files/SS1430.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss1430",
+          "priceCurrency": "USD",
+          "price": 35.3,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "Product",
+        "sku": "SS163C",
+        "name": "Dry-Aged Signature Chuck Eye Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss163c",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "Poor man's ribeye - similar flavor, better price.",
+        "image": "https://shipleyfarmsbeef.com/files/PS3535.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss163c",
+          "priceCurrency": "USD",
+          "price": 35.6,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "Product",
+        "sku": "SS2138",
+        "name": "Signature Fajita Skirt Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss2138",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "12-18 Flavorful cut perfect for fajitas.",
+        "image": "https://shipleyfarmsbeef.com/files/SS2138.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss2138",
+          "priceCurrency": "USD",
+          "price": 30.8,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "Product",
+        "sku": "SS8032",
+        "name": "Signature Strip Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss8032",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "10-12 oz Classic NY Strip with perfect balance of tenderness and flavor.",
+        "image": "https://shipleyfarmsbeef.com/files/SS8032.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss8032",
+          "priceCurrency": "USD",
+          "price": 48.9,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "Product",
+        "sku": "SS8435",
+        "name": "Signature Top Sirloin Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss8435",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "Signature Top Sirloin Steak. Pasture-raised beef from Shipley Farms in the NC High Country. Ships cold-packed or free farm pickup.",
+        "image": "https://shipleyfarmsbeef.com/files/SS8539.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss8435",
+          "priceCurrency": "USD",
+          "price": 28.3,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "Product",
+        "sku": "SS8539",
+        "name": "Signature Bavette Steak (Sirloin Flap)",
+        "url": "https://shipleyfarmsbeef.com/products/ss8539",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "14-16 Sirloin flap steak with rich beef flavor.",
+        "image": "https://shipleyfarmsbeef.com/files/SS8539.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss8539",
+          "priceCurrency": "USD",
+          "price": 30.8,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "item": {
+        "@type": "Product",
+        "sku": "SS92A3",
+        "name": "SB Dry-Aged Filet Tips and Tails",
+        "url": "https://shipleyfarmsbeef.com/products/ss92a3",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "The dry-aged trimmings from our tenderloins. Same beef, same aging, no steak price.",
+        "image": "https://shipleyfarmsbeef.com/files/PS3535.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss92a3",
+          "priceCurrency": "USD",
+          "price": 50.3,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "item": {
+        "@type": "Product",
+        "sku": "SS9334",
+        "name": "SB Dry-Aged Flank Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss9334",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "SB Dry-Aged Flank Steak. Pasture-raised beef from Shipley Farms in the NC High Country. Ships cold-packed or free farm pickup.",
+        "image": "https://shipleyfarmsbeef.com/files/PS3535.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss9334",
+          "priceCurrency": "USD",
+          "price": 39.8
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "item": {
+        "@type": "Product",
+        "sku": "SS9335",
+        "name": "Dry-Aged Signature Picanha (Coulotte)",
+        "url": "https://shipleyfarmsbeef.com/products/ss9335",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "Dry-Aged Signature Picanha (Coulotte). Pasture-raised beef from Shipley Farms in the NC High Country. Ships cold-packed or free farm pickup.",
+        "image": "https://shipleyfarmsbeef.com/files/SS9335.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss9335",
+          "priceCurrency": "USD",
+          "price": 29.7,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "item": {
+        "@type": "Product",
+        "sku": "SS9B33",
+        "name": "Signature Filet Mignon",
+        "url": "https://shipleyfarmsbeef.com/products/ss9b33",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "Dry-aged whole, then cut to order. The tenderloin at its most concentrated, 10 to 12 ounces.",
+        "image": "https://shipleyfarmsbeef.com/files/SS9B33.png",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss9b33",
+          "priceCurrency": "USD",
+          "price": 72.0,
+          "description": "Sold by the pound. This price is an estimate based on average weight. The final charge is the exact weight packed, which may be higher or lower."
+        },
+        "x_shipley_catch_weight": true
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "item": {
+        "@type": "Product",
+        "sku": "SS2137",
+        "name": "SB Dry-Aged Inside Skirt Steak",
+        "url": "https://shipleyfarmsbeef.com/products/ss2137",
+        "category": "Dry-Aged Steaks",
+        "brand": {
+          "@type": "Brand",
+          "name": "Shipley Farms"
+        },
+        "description": "SB Dry-Aged Inside Skirt Steak. Pasture-raised beef from Shipley Farms in the NC High Country. Ships cold-packed or free farm pickup.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://shipleyfarmsbeef.com/products/ss2137",
+          "priceCurrency": "USD",
+          "price": 37.3
+        }
+      }
+    }
+  ]
+}
