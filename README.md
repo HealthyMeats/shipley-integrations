@@ -107,3 +107,9 @@ properly.
 
 MIT. See [`LICENSE`](LICENSE). Contributors keep their copyright and sign off with a DCO line
 rather than assigning anything to us. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+**Scope.** The MIT licence covers everything in this repository: the tools, the example client,
+the demo, the documentation, and the page sources in [`site/`](site/). Nothing here is derived
+from or links against Shipley Farms' own store software, which is separate, private, and not
+under this licence. Our product names, photographs, and the Shipley Farms name and marks are
+not licensed by this file.
