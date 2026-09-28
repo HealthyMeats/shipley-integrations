@@ -1,7 +1,62 @@
-# Shipley Farms Integrations
+<p align="center">
+  <img src="assets/banner.svg" width="100%"
+       alt="Shipley Farms Integrations. Open tools for building on top of a family cattle farm in Vilas, North Carolina.">
+</p>
+
+<p align="center">
+  <a href="docs/API.md"><b>API docs</b></a> &nbsp;·&nbsp;
+  <a href="https://healthymeats.github.io/shipley-integrations/demo/"><b>Partner API demo</b></a> &nbsp;·&nbsp;
+  <a href="docs/PROJECTS.md"><b>Project briefs</b></a> &nbsp;·&nbsp;
+  <a href="docs/FOR-EDUCATORS.md"><b>For instructors</b></a> &nbsp;·&nbsp;
+  <a href="docs/FOR-BUSINESSES.md"><b>For food businesses</b></a>
+</p>
+
+---
 
 Open tools for building on top of [Shipley Farms](https://shipleyfarmsbeef.com/?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme), a family
 cattle operation in Vilas, North Carolina.
+
+## Resources
+
+All public, all live, no key and no signup.
+
+### Machine-readable
+
+| Resource | What it is |
+|---|---|
+| [`/files/catalog.json`](https://shipleyfarmsbeef.com/files/catalog.json) | **The product catalog.** schema.org `ItemList`: SKU, name, category, description, image, retail price. Start here |
+| [`/files/sitemap-products.xml`](https://shipleyfarmsbeef.com/files/sitemap-products.xml) | Every product page URL |
+| [`/sitemap.xml`](https://shipleyfarmsbeef.com/sitemap.xml) | Every page on the site |
+| [`/files/status.json`](https://shipleyfarmsbeef.com/files/status.json) | Service status, as data |
+| [`/llms.txt`](https://shipleyfarmsbeef.com/llms.txt) | Site summary for AI assistants |
+| [`/agents.md`](https://shipleyfarmsbeef.com/agents.md) | What we ask automated agents to do and not do |
+| [`/robots.txt`](https://shipleyfarmsbeef.com/robots.txt) | Crawl rules. Please honour them |
+
+### Pages worth knowing
+
+| Page | What it is |
+|---|---|
+| [Partner API demo](https://healthymeats.github.io/shipley-integrations/demo/) | The ordering API we are designing, running in your browser on sample data |
+| [/helloworld](https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | The front door. Fix one typo and you have contributed |
+| [/status](https://shipleyfarmsbeef.com/status?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | Is the store up |
+| [/catalog](https://shipleyfarmsbeef.com/catalog?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | The catalog as a readable page |
+| [/all-products](https://shipleyfarmsbeef.com/all-products?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | The storefront itself |
+| [/wholesale](https://shipleyfarmsbeef.com/wholesale?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | How buying at wholesale works |
+| [/wholesale-application](https://shipleyfarmsbeef.com/wholesale-application?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme) | Apply for a wholesale account |
+
+### In this repository
+
+| Document | Read it if |
+|---|---|
+| [`docs/API.md`](docs/API.md) | You are about to write code against our data |
+| [`docs/PROJECTS.md`](docs/PROJECTS.md) | You want something worth building, with acceptance criteria |
+| [`docs/FOR-BUSINESSES.md`](docs/FOR-BUSINESSES.md) | You sell food and want to carry our beef |
+| [`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md) | You teach, and want a free class project |
+| [`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md) | You need to know nothing here can reach our live systems |
+| [`AGENTS.md`](AGENTS.md) | You are an AI agent, or pointing one at this |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | You are about to open a pull request |
+| [`SECURITY.md`](SECURITY.md) | You found a security problem |
+| [`docs/MEASUREMENT.md`](docs/MEASUREMENT.md) | You wonder why our links carry tracking parameters |
 
 We run our storefront on ERPNext and we would rather build it with other people than alone.
 This repository is for **your** code: connectors, clients, and tools that talk to our catalog.

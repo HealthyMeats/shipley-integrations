@@ -26,7 +26,8 @@ UTM = "utm_source=github"
 REQUIRED = ["utm_source=github", "utm_medium=repo", "utm_campaign=shipley-integrations",
             "utm_content="]
 KEEP_CLEAN = ("/files/catalog.json", "/files/sitemap-products.xml", "/sitemap.xml",
-              "/llms.txt", "/agents.md", "/robots.txt")
+              "/llms.txt", "/agents.md", "/robots.txt", "/files/status.json",
+              "/files/status.html")
 URL = re.compile(re.escape(HOST) + r'[^\s\)\]"\'<>`]*')
 
 
