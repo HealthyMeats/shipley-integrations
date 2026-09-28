@@ -22,7 +22,7 @@ FORBIDDEN = [
     (re.compile(r"<\s*form", re.I), "a <form> tag"),
     (re.compile(r"<\s*link|<\s*style", re.I), "a <link> or <style> tag"),
 ]
-ALLOWED_HOSTS = ("shipleyfarmsbeef.com", "github.com")
+ALLOWED_HOSTS = ("shipleyfarmsbeef.com", "github.com", "healthymeats.github.io")
 REQUIRED = {
     "helloworld.html": [
         ("exactly one spelling mistake", "the first-task invitation"),

@@ -26,8 +26,7 @@ Read this before you build anything.
 
 So: you can build something that **shows** our beef. You cannot yet build something that
 **buys** it. The authenticated partner API that would change that is in design, and we would
-rather design it around a real business than guess. If that is you, see
-[`docs/FOR-BUSINESSES.md`](docs/FOR-BUSINESSES.md).
+rather design it around a real business than guess. You can **[try the proposed design in your browser](https://healthymeats.github.io/shipley-integrations/demo/)** and tell us where it is wrong, and if you sell food for a living see [`docs/FOR-BUSINESSES.md`](docs/FOR-BUSINESSES.md).
 
 One more thing worth knowing up front: the catalog file is a **periodic snapshot**, regenerated
 by hand rather than live. Read `x_shipley_provenance.generated_at_utc` and treat the prices as
@@ -47,6 +46,7 @@ indicative, not as a quote.
 | Use this with a class | [`docs/FOR-EDUCATORS.md`](docs/FOR-EDUCATORS.md) |
 | Check this cannot break the farm | [`docs/HOW-IT-STAYS-SEPARATE.md`](docs/HOW-IT-STAYS-SEPARATE.md) |
 | Contribute as an AI agent | [`AGENTS.md`](AGENTS.md) |
+| **See the partner API working** | **[Interactive demo](https://healthymeats.github.io/shipley-integrations/demo/)** |
 | Connect your food business to us | [`docs/FOR-BUSINESSES.md`](docs/FOR-BUSINESSES.md) |
 | Talk to us without GitHub | <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=readme> |
 

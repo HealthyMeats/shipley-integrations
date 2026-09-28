@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Shipley Farms Partner API — interactive demo</title>
+<meta name="description" content="An interactive demonstration of the partner ordering API Shipley Farms is designing for restaurants, distributors and resellers. Not a live system.">
+<style>
+:root{--red:#A82024;--ink:#1c1c1c;--mute:#6b6b6b;--line:#e3e0dd;--bg:#faf8f7;--ok:#1a7f4b;--warn:#a86a20}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.banner{background:var(--warn);color:#fff;padding:.6rem 1rem;font-size:.85rem;text-align:center;position:sticky;top:0;z-index:20}
+.banner strong{text-transform:uppercase;letter-spacing:.04em}
+header{background:#fff;border-bottom:1px solid var(--line);padding:1rem 1.25rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+.brand{font-weight:700;color:var(--red);font-size:1.05rem}
+.acct{font-size:.82rem;color:var(--mute);text-align:right}
+.wrap{max-width:1080px;margin:0 auto;padding:1.25rem}
+nav{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.25rem}
+nav button{border:1px solid var(--line);background:#fff;color:var(--ink);padding:.5rem .85rem;border-radius:999px;cursor:pointer;font-size:.9rem}
+nav button[aria-current="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem}
+/* Tables carry more columns than a phone is wide. Scroll the card rather than clipping
+   the rightmost column, which on an order table is the total: the number that matters. */
+.card{overflow-x:auto}
+table{min-width:30rem}
+h1{font-size:1.4rem;margin:.2rem 0 .5rem}
+h2{font-size:1.12rem;margin:0 0 .6rem}
+p.lead{color:var(--mute);margin-top:0}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:.55rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+td.num,th.num{text-align:right;white-space:nowrap}
+.pill{display:inline-block;font-size:.72rem;padding:.12rem .5rem;border-radius:999px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.pill.ok{color:var(--ok);border-color:#bfe3cf}
+.pill.low{color:var(--warn);border-color:#e8d5b5}
+.pill.no{color:var(--red);border-color:#e8c2c4}
+.est{color:var(--mute);font-size:.78rem;display:block}
+button.act{background:var(--red);color:#fff;border:0;border-radius:6px;padding:.55rem 1rem;cursor:pointer;font-size:.92rem}
+button.act[disabled]{opacity:.45;cursor:not-allowed}
+button.ghost{background:#fff;border:1px solid var(--line);border-radius:6px;padding:.45rem .8rem;cursor:pointer;font-size:.85rem}
+input[type=number]{width:5.5rem;padding:.35rem .45rem;border:1px solid var(--line);border-radius:5px;font:inherit}
+.api{margin-top:1rem;border-top:1px dashed var(--line);padding-top:.85rem}
+.api summary{cursor:pointer;font-size:.85rem;color:var(--red);font-weight:600}
+pre{background:#1c1c1c;color:#e8e6e3;padding:.85rem 1rem;border-radius:8px;overflow:auto;font-size:.79rem;line-height:1.5;margin:.7rem 0 0}
+pre .k{color:#7fb3ff}.mth{color:#9ae6a4}.str{color:#f5c98a}.cmt{color:#8a8a8a}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.note{font-size:.84rem;color:var(--mute);border-left:3px solid var(--line);padding-left:.8rem;margin:.8rem 0}
+footer{padding:2rem 1.25rem 3rem;text-align:center;color:var(--mute);font-size:.85rem}
+footer a{color:var(--red)}
+@media (max-width:620px){.acct{text-align:left}th.hide,td.hide{display:none}
+  body{font-size:15px}table{font-size:.86rem;min-width:26rem}
+  .wrap{padding:1rem .75rem}.card{padding:1rem .9rem}}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <strong>Demonstration only</strong> &nbsp;·&nbsp; Not a live system. No account, no key, no server.
+  Every price shown is invented for this demo and is not a quote.
+</div>
+
+<header>
+  <div>
+    <div class="brand">Shipley Farms &nbsp;·&nbsp; Partner API</div>
+    <div style="font-size:.8rem;color:var(--mute)">Proposed design, shown working against sample data</div>
+  </div>
+  <div class="acct" id="acct"></div>
+</header>
+
+<div class="wrap">
+  <nav id="nav"></nav>
+  <div id="view"></div>
+</div>
+
+<footer>
+  This demonstrates an API that <strong>does not exist yet</strong>. It exists to show what we are
+  designing and to give the businesses who would use it something concrete to react to.<br>
+  <a href="https://github.com/HealthyMeats/shipley-integrations/blob/main/docs/FOR-BUSINESSES.md">How to connect your business</a> &nbsp;·&nbsp;
+  <a href="https://shipleyfarmsbeef.com/wholesale-application?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=demo">Apply for a wholesale account</a> &nbsp;·&nbsp;
+  <a href="https://github.com/HealthyMeats/shipley-integrations">Source</a>
+</footer>
+
+<script src="data.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>

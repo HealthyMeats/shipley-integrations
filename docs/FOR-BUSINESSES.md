@@ -34,6 +34,14 @@ The commercial relationship comes first, and it is not a technical process:
 Once you are an account, integration becomes a conversation we can actually have, because we
 know who you are and what you buy.
 
+## See what we are proposing
+
+**[Try the partner API demo in your browser](https://healthymeats.github.io/shipley-integrations/demo/)**
+
+It runs entirely on your machine against invented sample data. Sign in as a fictional restaurant, look at your pricing, place a standing order, watch it move through statuses, and read the invoices. Each screen shows the proposed HTTP request behind it.
+
+Nothing in it is real and no price in it is a quote. It exists so you can disagree with a concrete thing rather than a paragraph.
+
 ## If you want to help shape the partner API
 
 We are designing the authenticated API now. The planned scope is your own pricing, order
