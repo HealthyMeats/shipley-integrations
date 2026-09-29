@@ -30,8 +30,14 @@ not spend an evening on something we then have to argue about.
 
 ## What will get a pull request declined
 
-- **`<script>` tags, event handlers (`onclick=`, `onload=`), `<iframe>`, or external requests.**
-  These pages are served on the same domain as our checkout. CI rejects them and so will we.
+- **Anything that can run code, fetch from another host, cover the page, or redirect a visitor.**
+  These pages are served on the same domain as our checkout, so markup here is not a document,
+  it is code running where our customers' sessions live. `tools/sitegate.py` is the exact rule
+  and it explains itself: the tags and attributes these pages may use are an allowlist, URLs are
+  parsed and their host matched exactly, and `style` attributes may not carry `url(...)` or a
+  `position` declaration. CI runs it on your pull request, an operator runs the real gate again
+  before publishing, and the two are checked against a shared attack corpus.
+  Run it yourself before you push: `python3 tools/validate_site.py`.
 - **Tracking pixels or third party embeds** of any kind.
 - **Removing the security or rate limiting notices.** Those are there for a real reason.
 - **Inventing facts about the farm.** If you are not sure whether something is true, ask in the
