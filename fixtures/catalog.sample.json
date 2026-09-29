@@ -6,7 +6,7 @@
   "numberOfItems": 12,
   "x_shipley_provenance": {
     "generated_at_utc": "2026-09-26T00:59:05Z",
-    "generated_from": "https://shipleyfarmsbeef.com/api/method/webshop.webshop.api.get_product_filter_data",
+    "generated_from": "https://shipleyfarmsbeef.com/all-products",
     "snapshot": true,
     "freshness_warning": "This file is a point-in-time snapshot, not a live endpoint. Prices, product availability, and the product list itself change. Re-read the product url before quoting a price or placing an order.",
     "catch_weight_items": 45,
