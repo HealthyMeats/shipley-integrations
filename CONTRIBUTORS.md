@@ -12,6 +12,7 @@ being on.
 
 | Contributor | Contribution | Merged |
 |---|---|---|
+| @Jah-yee | Typo fix on `/helloworld` ([#6](https://github.com/HealthyMeats/shipley-integrations/pull/6)) | 2026-09-30 |
 | _You could be here._ See [CONTRIBUTING.md](CONTRIBUTING.md). | | |
 
 ## The typo relay
