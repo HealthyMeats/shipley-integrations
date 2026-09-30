@@ -29,6 +29,14 @@ jobs:
       - name: Validate live site pages
         run: python3 tools/validate_site.py
 
+      - name: The typo relay still has a way in
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            python3 tools/validate_seed.py --require-live
+          else
+            python3 tools/validate_seed.py
+          fi
+
       - name: Example runs offline against the fixture
         run: python3 examples/catalog_client.py --file fixtures/catalog.sample.json
 

@@ -14,6 +14,13 @@ being on.
 |---|---|---|
 | _You could be here._ See [CONTRIBUTING.md](CONTRIBUTING.md). | | |
 
+## The typo relay
+
+`/helloworld` always carries exactly one deliberate misspelling. Fix it and you go in the chain in
+[`site/SEEDED.md`](site/SEEDED.md), which records who found which one, in order. It is the same
+honesty rule as the table above: the chain says you fixed a typo, because you fixed a typo. What
+makes it worth being in is that it is a real list of real people who each changed a live page.
+
 ## How to get on this list
 
 Have a pull request merged. That is the whole requirement. There is no minimum size, and the

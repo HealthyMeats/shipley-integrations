@@ -59,5 +59,13 @@ who has never sent a pull request before. If you find it, fix it, and it is stil
 `main`, that fix is yours to make.
 
 If you are reading this because you already fixed it: thank you, and please leave the invitation
-paragraph itself intact so the next person still has a way in. Maintainers, plant a fresh one in
-the same spot when the old one is merged.
+paragraph itself intact so the next person still has a way in.
+
+It is a relay. When a fix is merged a maintainer plants a fresh one somewhere else on the page,
+and the person who found the old one gets a row in the chain in [`SEEDED.md`](SEEDED.md). That
+file is also the ledger CI reads: `main` goes red while a seed has been fixed and not replaced,
+so the relay cannot quietly stop because everybody was busy. The word itself is stored there as a
+hash rather than in plain text, for the obvious reason.
+
+Maintainers: `tools/plant_seed.py` does the whole handover, and refuses to plant the same
+misspelling that was just fixed.
