@@ -13,7 +13,8 @@ being on.
 | Contributor | Contribution | Merged |
 |---|---|---|
 | @Jah-yee | Typo fix on `/helloworld` ([#6](https://github.com/HealthyMeats/shipley-integrations/pull/6)) | 2026-09-30 |
-| @aipd506 | Typo fix on `/helloworld` ([#7](https://github.com/HealthyMeats/shipley-integrations/pull/7)) | 2026-10-02 |
+| @aipd506 | Typo fix on `/helloworld` ([#8](https://github.com/HealthyMeats/shipley-integrations/pull/8)) | 2026-10-02 |
+| @O1sumitkumar | Typo fix on `/helloworld` ([#10](https://github.com/HealthyMeats/shipley-integrations/pull/10)) | 2026-10-06 |
 | _You could be here._ See [CONTRIBUTING.md](CONTRIBUTING.md). | | |
 
 ## The typo relay
