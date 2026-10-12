@@ -60,3 +60,15 @@ python3 tools/plant_seed.py --credit @their-handle --fixed recieve \
 That rewrites the page, updates the block above, moves the fixed seed into the chain, and prints
 the publish command. Then run the publisher so the live page matches the repository, because a
 merged fix that is never published makes a liar out of the page.
+
+`tools/validate_live_seed.py` checks that last step actually happened. It fetches the published
+page and fails if the page does not carry the seed named above; `.github/workflows/live-seed.yml`
+runs it hourly. `validate_seed.py --require-live` cannot do this, because it reads the
+repository file and never the network. That gap is not hypothetical: seed 2 stayed on the live
+page for a day after it was fixed and credited, and seed 3 for six days, with a green build the
+whole time.
+
+The publisher refuses to run from a clone that does not match `origin/main`, which is the other
+half of the same problem. A stale checkout has a stale ledger too, so the page and the file it
+is checked against agree with each other and a seed comparison cannot see anything wrong. Only
+the remote can.

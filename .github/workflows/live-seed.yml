@@ -1,0 +1,44 @@
+name: Live seed
+
+# Separate from CI on purpose.
+#
+# Not on pull_request: an unpublished seed is a maintainer's debt, and failing an outside
+# contribution over something the contributor cannot fix would block the one thing this
+# repository asks for.
+#
+# Not on push either: the normal sequence is merge, plant, publish, and a push-triggered run
+# would go red in the gap between planting and publishing, every single time, for a sequence
+# that is being followed correctly. Nobody reads a check that cries wolf on the happy path.
+# Hourly turns "forgot to publish" into a signal and leaves "has not published yet" alone.
+#
+# Note for whoever inherits this: GitHub disables scheduled workflows on a repository with no
+# activity for 60 days. If this stops reporting, that is the first thing to check.
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-seed
+  cancel-in-progress: true
+
+jobs:
+  live-seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # No --strict: a mismatch fails, an unreachable storefront does not. A farm outage is a
+      # real problem but it is not this repository's build breaking, and a red badge on a public
+      # repo invites issues from people who cannot help.
+      - name: The published page carries the current seed
+        run: python3 tools/validate_live_seed.py
