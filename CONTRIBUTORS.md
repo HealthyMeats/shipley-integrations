@@ -15,6 +15,7 @@ being on.
 | @Jah-yee | Typo fix on `/helloworld` ([#6](https://github.com/HealthyMeats/shipley-integrations/pull/6)) | 2026-09-30 |
 | @aipd506 | Typo fix on `/helloworld` ([#8](https://github.com/HealthyMeats/shipley-integrations/pull/8)) | 2026-10-02 |
 | @O1sumitkumar | Typo fix on `/helloworld` ([#10](https://github.com/HealthyMeats/shipley-integrations/pull/10)) | 2026-10-06 |
+| @tadaokatzuki | Typo fix on `/helloworld` ([#13](https://github.com/HealthyMeats/shipley-integrations/pull/13)) | 2026-10-15 |
 | _You could be here._ See [CONTRIBUTING.md](CONTRIBUTING.md). | | |
 
 ## The typo relay

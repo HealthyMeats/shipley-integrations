@@ -10,10 +10,10 @@ failure rather than a slow disappointment for the next person who comes looking.
 ## Current seed
 
 ```
-number:  4
+number:  5
 file:    site/helloworld.html
-sha256:  3fcc6a41647fc6fccbec53222e9a6103f877280857e07f0886d39573a7f38ae4
-planted: 2026-10-06
+sha256:  1bc7ba0c1d9011475964f18b5a93546546bad1b35b535da72e7405190854cfef
+planted: 2026-10-15
 ```
 
 The word itself is stored as a SHA-256 hash rather than in plain text, because writing it here
@@ -44,6 +44,7 @@ Newest first. Each row is a real merged pull request against a live page.
 
 | # | Misspelling | Found and fixed by | Merged |
 |---|---|---|---|
+| 4 | `famliy` | @tadaokatzuki | 2026-10-15 |
 | 3 | `buisness` | @O1sumitkumar | 2026-10-06 |
 | 2 | `catagory` | @aipd506 | 2026-10-02 |
 | 1 | `recieve` | @Jah-yee | 2026-09-30 |
