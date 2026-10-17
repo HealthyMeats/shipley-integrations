@@ -12,10 +12,10 @@ being on.
 
 | Contributor | Contribution | Merged |
 |---|---|---|
-| @Jah-yee | Typo fix on `/helloworld` ([#6](https://github.com/HealthyMeats/shipley-integrations/pull/6)) | 2026-09-30 |
-| @aipd506 | Typo fix on `/helloworld` ([#8](https://github.com/HealthyMeats/shipley-integrations/pull/8)) | 2026-10-02 |
-| @O1sumitkumar | Typo fix on `/helloworld` ([#10](https://github.com/HealthyMeats/shipley-integrations/pull/10)) | 2026-10-06 |
 | @tadaokatzuki | Typo fix on `/helloworld` ([#13](https://github.com/HealthyMeats/shipley-integrations/pull/13)) | 2026-10-15 |
+| @O1sumitkumar | Typo fix on `/helloworld` ([#10](https://github.com/HealthyMeats/shipley-integrations/pull/10)) | 2026-10-06 |
+| @aipd506 | Typo fix on `/helloworld` ([#8](https://github.com/HealthyMeats/shipley-integrations/pull/8)) | 2026-10-02 |
+| @Jah-yee | Typo fix on `/helloworld` ([#6](https://github.com/HealthyMeats/shipley-integrations/pull/6)) | 2026-09-30 |
 | _You could be here._ See [CONTRIBUTING.md](CONTRIBUTING.md). | | |
 
 ## The typo relay
@@ -30,9 +30,11 @@ makes it worth being in is that it is a real list of real people who each change
 Have a pull request merged. That is the whole requirement. There is no minimum size, and the
 first task on <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=contributors> counts.
 
-Maintainers: add a row when you merge, in the same commit as the merge where practical. Use the
-contributor's preferred name and link their GitHub profile if they want it linked. Ask first
-rather than assuming; some people contribute under a name they do not want indexed.
+Maintainers: add a row at the TOP of the table when you merge, in the same commit as the merge
+where practical. The table is newest first, so a row appended at the bottom contradicts the line
+under the heading. Use the contributor's preferred name and link their GitHub profile if they
+want it linked. Ask first rather than assuming; some people contribute under a name they do not
+want indexed.
 
 ## What we will and will not say about your work
 
