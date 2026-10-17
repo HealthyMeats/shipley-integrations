@@ -51,6 +51,8 @@ Newest first. Each row is a real merged pull request against a live page.
 
 ## For maintainers
 
+The full cycle, including who can do which half, is in [`docs/MAINTAINING.md`](../docs/MAINTAINING.md).
+
 After merging a fix, plant the next seed in the same commit range, not "later":
 
 ```

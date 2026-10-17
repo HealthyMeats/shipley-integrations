@@ -59,6 +59,7 @@ All public, all live, no key and no signup.
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | You are about to open a pull request |
 | [`SECURITY.md`](SECURITY.md) | You found a security problem |
 | [`docs/MEASUREMENT.md`](docs/MEASUREMENT.md) | You wonder why our links carry tracking parameters |
+| [`docs/MAINTAINING.md`](docs/MAINTAINING.md) | You maintain this: reviewing, merging, planting the next seed, publishing |
 
 We run our storefront on ERPNext and we would rather build it with other people than alone.
 This repository is for **your** code: connectors, clients, and tools that talk to our catalog.
