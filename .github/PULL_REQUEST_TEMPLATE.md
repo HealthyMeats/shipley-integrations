@@ -4,7 +4,8 @@
 
 ## Checklist
 
-- [ ] Commits are signed off (`git commit -s`). See CONTRIBUTING.md
+- [ ] Commits are signed off (`git commit -s`, or paste the `Signed-off-by:` line into the
+      **Extended description** box if you are committing in the browser). See CONTRIBUTING.md
 - [ ] If this adds an integration, `integration.json` and `README.md` are filled in
 - [ ] No credentials, keys, or real customer data anywhere, including fixtures
 - [ ] Tests and examples run offline against `fixtures/`, with no network calls

@@ -57,7 +57,22 @@ jobs:
             fi
           done <<< "$(git rev-list "$base..$head")"
           if [ "$missing" -ne 0 ]; then
-            echo "Add sign-off with: git commit -s  (or git rebase --signoff $base)"
+            echo "No Signed-off-by line. EVERY commit in a pull request needs one, so"
+            echo "pushing one more commit will not clear this gate."
+            echo ""
+            echo "If you edited in the browser (the pencil icon), redo the edit with the"
+            echo "sign-off in place:"
+            echo "  1. In your fork, delete the branch behind this pull request."
+            echo "  2. Edit the file again. In the commit box, put this line in the"
+            echo "     Extended description field, not the title:"
+            echo "       Signed-off-by: Your Name <your@email.com>"
+            echo "  3. Open a new pull request. All 8 checks will run on it."
+            echo ""
+            echo "From a terminal: git rebase --signoff $base, then force-push the branch."
+            echo ""
+            echo "A maintainer cannot add this for you: it certifies that you wrote the"
+            echo "change and have the right to submit it. If you are stuck, say so in a"
+            echo "comment. We will walk you through it rather than close your work."
             exit 1
           fi
           echo "All commits signed off."
