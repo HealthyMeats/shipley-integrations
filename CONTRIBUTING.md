@@ -73,6 +73,17 @@ git commit -s -m "add square catalog sync"
 
 That produces `Signed-off-by: Your Name <you@example.com>`. CI checks for it.
 
+Editing in the browser instead? GitHub's commit box has an **Extended description** field
+underneath the title. Paste the same line in there:
+
+```
+Signed-off-by: Your Name <you@example.com>
+```
+
+Every commit in a pull request needs it, so a later commit does not fix an earlier one. If you
+have already opened a pull request without it, say so in a comment and we will walk you through
+redoing it rather than closing your work.
+
 ## Review standards
 
 We read every pull request. We will be direct about what needs changing and we will tell you
