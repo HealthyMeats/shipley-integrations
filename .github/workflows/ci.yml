@@ -45,34 +45,16 @@ jobs:
 
       - name: Commits are signed off (DCO)
         if: github.event_name == 'pull_request'
+        # tools/check_signoff.py applies character for character the same rule the inline
+        # grep did. What it adds is the reason: a sign-off that is present but misformatted
+        # used to be reported as "No Signed-off-by line", which is false, and it cost us two
+        # correct contributions (#12 and #15). The self-test runs first so a broken checker
+        # cannot quietly pass a stranger's pull request, and it is announced as our fault.
         run: |
-          base="${{ github.event.pull_request.base.sha }}"
-          head="${{ github.event.pull_request.head.sha }}"
-          missing=0
-          while read -r sha; do
-            [ -z "$sha" ] && continue
-            if ! git log -1 --format=%B "$sha" | grep -qi '^Signed-off-by: .\+ <.\+@.\+>'; then
-              echo "::error::$sha is missing a Signed-off-by line"
-              missing=1
-            fi
-          done <<< "$(git rev-list "$base..$head")"
-          if [ "$missing" -ne 0 ]; then
-            echo "No Signed-off-by line. EVERY commit in a pull request needs one, so"
-            echo "pushing one more commit will not clear this gate."
-            echo ""
-            echo "If you edited in the browser (the pencil icon), redo the edit with the"
-            echo "sign-off in place:"
-            echo "  1. In your fork, delete the branch behind this pull request."
-            echo "  2. Edit the file again. In the commit box, put this line in the"
-            echo "     Extended description field, not the title:"
-            echo "       Signed-off-by: Your Name <your@email.com>"
-            echo "  3. Open a new pull request. All 8 checks will run on it."
-            echo ""
-            echo "From a terminal: git rebase --signoff $base, then force-push the branch."
-            echo ""
-            echo "A maintainer cannot add this for you: it certifies that you wrote the"
-            echo "change and have the right to submit it. If you are stuck, say so in a"
-            echo "comment. We will walk you through it rather than close your work."
+          python3 tools/check_signoff.py --self-test >/dev/null || {
+            python3 tools/check_signoff.py --self-test || true
+            echo "The sign-off checker is broken. That is our bug, not a contributor's."
             exit 1
-          fi
-          echo "All commits signed off."
+          }
+          python3 tools/check_signoff.py \
+            --range "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"

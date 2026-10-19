@@ -80,6 +80,11 @@ underneath the title. Paste the same line in there:
 Signed-off-by: Your Name <you@example.com>
 ```
 
+The brackets around the address have to be angle brackets, `<` and `>`, not round ones. That
+single substitution is the most common reason this check goes red, and it has cost us two pull
+requests that were correct in every other way. If it does go red, the check now tells you
+exactly which character is wrong and prints the corrected line back to you.
+
 Every commit in a pull request needs it, so a later commit does not fix an earlier one. If you
 have already opened a pull request without it, say so in a comment and we will walk you through
 redoing it rather than closing your work.
