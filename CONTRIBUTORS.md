@@ -12,6 +12,7 @@ being on.
 
 | Contributor | Contribution | Merged |
 |---|---|---|
+| @Kira-Saints | Typo fix on `/helloworld` ([#16](https://github.com/HealthyMeats/shipley-integrations/pull/16)) | 2026-10-18 |
 | @tadaokatzuki | Typo fix on `/helloworld` ([#13](https://github.com/HealthyMeats/shipley-integrations/pull/13)) | 2026-10-15 |
 | @O1sumitkumar | Typo fix on `/helloworld` ([#10](https://github.com/HealthyMeats/shipley-integrations/pull/10)) | 2026-10-06 |
 | @aipd506 | Typo fix on `/helloworld` ([#8](https://github.com/HealthyMeats/shipley-integrations/pull/8)) | 2026-10-02 |
