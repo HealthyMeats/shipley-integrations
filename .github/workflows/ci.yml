@@ -5,6 +5,11 @@ on:
   push:
     branches: [main]
 
+# Read-only, stated here rather than left to the repository default: this job runs code from
+# outside contributors' pull requests, and it needs nothing but to read the checkout.
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -39,6 +44,13 @@ jobs:
 
       - name: Example runs offline against the fixture
         run: python3 examples/catalog_client.py --file fixtures/catalog.sample.json
+
+      - name: Catalog validator passes its own tests and the fixture
+        # Self-test first, so a broken validator is reported as ours. Then the fixture: problems
+        # fail the build, warnings do not (the fixture is a dated snapshot, so it is always stale).
+        run: |
+          python3 tools/validate_catalog.py --self-test
+          python3 tools/validate_catalog.py --file fixtures/catalog.sample.json
 
       - name: Every Python file compiles
         run: python3 -m compileall -q examples integrations tools

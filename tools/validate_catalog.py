@@ -26,18 +26,33 @@ the schema comes with its own explanation.
     python3 tools/validate_catalog.py --self-test
 
 Exit status: 0 when there are no problems, 1 when there is at least one (or, with --strict, at
-least one warning), and 2 when the file could not be read at all.
+least one warning), 2 when the file could not be read at all, and 3 when the tool itself or its
+schema file is broken (a bug for the maintainers, never a fault in your file).
 
 Standard library only. The schema checker below supports just the JSON Schema keywords
 catalog.schema.json uses, and --self-test fails if the schema starts using another one.
+
+Hardening (maintainers, 2026-11-18): every piece of text that comes from the catalog is shown
+with control and invisible formatting characters escaped, so a tampered file cannot rewrite the
+terminal or a CI log; files over MAX_BYTES, deeply nested JSON, directories and non-UTF-8 files
+are refused with a plain message instead of a traceback; the schema is checked for unknown
+keywords, unknown types, unresolvable or looping $refs and patterns that do not compile before
+anything is validated against it.
 """
 import argparse
 import collections
+import contextlib
 import copy
 import datetime
+import functools
+import io
 import json
+import math
 import os
+import stat
 import re
+import tempfile
+import unicodedata
 import statistics
 import sys
 import textwrap
@@ -53,6 +68,9 @@ SKU_LIKE = re.compile(r"^[A-Z]{2}[0-9A-Z]{4}$")
 # "~12 Our signature steak" or "12-18 Flavorful cut", but not "10-12 oz Classic NY Strip".
 STRAY_NUMBER = re.compile(
     r"^(~?\d+(?:\s*(?:-|to)\s*\d+)?)\s+(?!(?:oz|ounces?|lbs?|pounds?|g|kg)\b)", re.IGNORECASE)
+
+# The published catalog is a few hundred kilobytes. Anything this large is not a catalog.
+MAX_BYTES = 20 * 1024 * 1024
 
 PROBLEM, WARNING = "problem", "warning"
 Finding = collections.namedtuple("Finding", "severity code message")
@@ -84,13 +102,32 @@ def _is_type(value, name):
     return isinstance(value, {"object": dict, "array": list, "string": str, "boolean": bool}[name])
 
 
+class SchemaError(Exception):
+    """The schema file itself is broken. A maintainer's bug, reported with exit status 3."""
+
+
 def _resolve(schema, root):
-    while "$ref" in schema:
+    """Follow local $refs ("#/a/b") to the node they name. Refuses anything else, and loops."""
+    seen = set()
+    while isinstance(schema, dict) and "$ref" in schema:
+        ref = schema["$ref"]
+        if not isinstance(ref, str) or not ref.startswith("#/"):
+            raise SchemaError("$ref {!r} is not a local reference starting with #/".format(ref))
+        if ref in seen:
+            raise SchemaError("$ref {!r} refers back to itself".format(ref))
+        seen.add(ref)
         node = root
-        for part in schema["$ref"].lstrip("#/").split("/"):
+        for part in ref[2:].split("/"):
+            if not isinstance(node, dict) or part not in node:
+                raise SchemaError("$ref {!r} points at nothing".format(ref))
             node = node[part]
         schema = node
     return schema
+
+
+@functools.lru_cache(maxsize=None)
+def _pattern(text):
+    return re.compile(text)
 
 
 def schema_violations(value, schema, root, path=()):
@@ -110,7 +147,7 @@ def schema_violations(value, schema, root, path=()):
     if isinstance(value, str):
         if len(value.strip()) < schema.get("minLength", 0):
             yield path, schema, "empty", value
-        elif "pattern" in schema and not re.search(schema["pattern"], value):
+        elif "pattern" in schema and not _pattern(schema["pattern"]).search(value):
             yield path, schema, "pattern", value
     if _is_type(value, "number"):
         too_low = ("minimum" in schema and value < schema["minimum"]) or (
@@ -145,18 +182,67 @@ def unsupported_keywords(schema, where="schema"):
     return found
 
 
+def schema_errors(schema):
+    """Every reason `schema` cannot be trusted, as plain strings. Empty means it is sound.
+
+    Checked before any catalog is validated, so a broken schema is reported as the tool's fault
+    (exit 3) rather than producing confusing findings about the catalog.
+    """
+    errors = ["unsupported keyword " + k for k in unsupported_keywords(schema)]
+
+    def walk(node, where):
+        if not isinstance(node, dict):
+            return
+        if "type" in node and node["type"] not in TYPE_WORDS:
+            errors.append("{}: unknown type {!r}".format(where, node["type"]))
+        if "pattern" in node:
+            try:
+                _pattern(node["pattern"])
+            except (re.error, TypeError) as e:
+                errors.append("{}: pattern does not compile ({})".format(where, e))
+        if "$ref" in node:
+            try:
+                _resolve(node, schema)
+            except SchemaError as e:
+                errors.append("{}: {}".format(where, e))
+        for key in ("properties", "$defs"):
+            for name, child in (node.get(key) or {}).items():
+                walk(child, "{}.{}.{}".format(where, key, name))
+        if "items" in node:
+            walk(node["items"], where + ".items")
+
+    if not isinstance(schema, dict):
+        return ["the schema is not a JSON object"]
+    walk(schema, "schema")
+    return errors
+
+
 # ----------------------------------------------------------------------------- plain words
 
+def _safe(text):
+    """`text` with control and invisible formatting characters written as \\uXXXX.
+
+    Catalog text is printed to a terminal or a CI log. An escape sequence or a right-to-left
+    override in a product name could recolour, hide or reorder the report, so every string that
+    came from the catalog goes through here before it is shown. Ordinary letters, accents and
+    punctuation are untouched.
+    """
+    text = str(text).replace("\\", "\\\\")  # so a literal "\u001b" in the catalog cannot pose as an escape
+    return "".join("\\u{:04x}".format(ord(ch))
+                   if unicodedata.category(ch) in ("Cc", "Cf", "Cs", "Zl", "Zp") else ch
+                   for ch in text)
+
+
 def _show(value):
-    text = json.dumps(value, ensure_ascii=False)
+    text = _safe(json.dumps(value, ensure_ascii=False))
     return text if len(text) <= 60 else text[:57] + "..."
 
 
 def _product_label(item, index):
     if isinstance(item, dict) and isinstance(item.get("sku"), str) and item["sku"].strip():
         if isinstance(item.get("name"), str) and item["name"].strip():
-            return 'Product {} "{}"'.format(item["sku"], item["name"])
-        return "Product {}".format(item["sku"])
+            return 'Product {} "{}"'.format(_safe(item["sku"]), _safe(item["name"]))
+        return "Product {}".format(_safe(item["sku"]))
     return "Product number {} in the list".format(index + 1)
 
 
@@ -205,10 +291,21 @@ def _products(catalog):
             if isinstance(e, dict) and isinstance(e.get("item"), dict)]
 
 
+# No real product costs this much. Above it a price is a data error, and formatting it as
+# dollars would overflow.
+PRICE_CEILING = 1e9
+
+
 def _price(item):
     offer = item.get("offers")
     price = offer.get("price") if isinstance(offer, dict) else None
-    return price if _is_type(price, "number") and price > 0 else None
+    ok = _is_type(price, "number") and _finite(price) and 0 < price <= PRICE_CEILING
+    return price if ok else None
+
+
+def _finite(number):
+    """math.isfinite, except that it never overflows on a huge whole number (those are finite)."""
+    return True if isinstance(number, int) else math.isfinite(number)
 
 
 def check(catalog, schema, today, max_age_days=STALE_AFTER_DAYS):
@@ -238,7 +335,7 @@ def check(catalog, schema, today, max_age_days=STALE_AFTER_DAYS):
             findings.append(Finding(PROBLEM, "duplicate-sku", (
                 "The product code {} is used by {} products: {}. Product codes must be unique, "
                 "or other systems will mix these products up.").format(
-                    sku, len(items), ", ".join(_show(i.get("name")) for i in items))))
+                    _safe(sku), len(items), ", ".join(_show(i.get("name")) for i in items))))
 
     for _i, item in products:
         if "offers" not in item and not item.get("x_shipley_note"):
@@ -246,6 +343,12 @@ def check(catalog, schema, today, max_age_days=STALE_AFTER_DAYS):
                 "{} has no price, and no note saying why. Only variant templates (products "
                 "where you pick a size or style on the product page) should be without a price, "
                 "and those carry a note (x_shipley_note) explaining it.").format(label[id(item)])))
+        offer = item.get("offers")
+        price = offer.get("price") if isinstance(offer, dict) else None
+        if _is_type(price, "number") and not price < 0 and not (_finite(price) and price <= PRICE_CEILING):
+            findings.append(Finding(PROBLEM, "absurd-price", (
+                "{} has a price of {}, which cannot be a real price. Integrations would show it "
+                "or fail on it.").format(label[id(item)], _show(price))))
 
     findings += _picture_findings(products, label, names)
     findings += _description_findings(products, label)
@@ -275,17 +378,17 @@ def _picture_findings(products, label, names):
         if not SKU_LIKE.match(stem) or stem.upper() == item["sku"].upper():
             continue
         if stem in names:
-            owner = 'another product, {} "{}"'.format(stem, names[stem])
+            owner = 'another product, {} "{}"'.format(_safe(stem), _safe(names[stem]))
         else:
-            owner = "a different product code, {}".format(stem)
+            owner = "a different product code, {}".format(_safe(stem))
         shared = [u for u in users[image] if u is not item]
         also = ""
         if shared:
             also = " The same picture is also used by {}.".format(
-                ", ".join(u.get("sku", "?") for u in shared))
+                ", ".join(_safe(u.get("sku", "?")) for u in shared))
         findings.append(Finding(WARNING, "image-other-product", (
             "{} uses the picture {}, which is named after {}, so it may show a different "
-            "cut.{}").format(label[id(item)], filename, owner, also)))
+            "cut.{}").format(label[id(item)], _safe(filename), owner, also)))
     return findings
 
 
@@ -303,7 +406,7 @@ def _description_findings(products, label):
             findings.append(Finding(WARNING, "stray-number", (
                 '{}: its description starts with "{}", which looks like a leftover note '
                 "(perhaps a weight or a count) rather than words meant for shoppers.").format(
-                    label[id(item)], match.group(1))))
+                    label[id(item)], _safe(match.group(1)))))
     return findings
 
 
@@ -314,7 +417,7 @@ def _category_findings(products, label):
             by_category[item["category"]].append(item)
     return [Finding(WARNING, "lonely-category", (
         'The category "{}" has only one product, {}. It may be a misspelt category name, or a '
-        "product filed in the wrong place.").format(category, label[id(items[0])]))
+        "product filed in the wrong place.").format(_safe(category), label[id(items[0])]))
         for category, items in by_category.items() if len(items) == 1]
 
 
@@ -339,7 +442,7 @@ def _price_findings(products, label):
             findings.append(Finding(WARNING, "odd-price", (
                 "{} is priced at {}, {} the typical price in {} (${:.2f}). It could be a typo, "
                 "such as a missing or extra digit or a misplaced decimal point.").format(
-                    label[id(item)], _price_words(item, price), how, category, typical)))
+                    label[id(item)], _price_words(item, price), how, _safe(category), typical)))
     for _i, item in products:
         offer = item.get("offers")
         if item.get("x_shipley_catch_weight") is not True or not isinstance(offer, dict):
@@ -364,8 +467,17 @@ def _freshness_findings(catalog, today, max_age_days):
     try:
         made_on = datetime.datetime.strptime(made, "%Y-%m-%dT%H:%M:%SZ").date()
     except (TypeError, ValueError):
+        if isinstance(made, str) and _pattern(r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T").match(made):
+            # Shaped like a time, so the schema passed it, but the date does not exist.
+            return [Finding(WARNING, "bad-date", (
+                "The catalog says it was made at {}, which is not a real date, so nobody can tell "
+                "how old its prices are.").format(_show(made)))]
         return []  # the schema already reports a malformed time
     age = (today - made_on).days
+    if age < 0:
+        return [Finding(WARNING, "future-date", (
+            "The catalog says it was made on {}, which is {} day(s) in the future. The date is "
+            "wrong, so nobody can tell how old its prices are.").format(made_on.isoformat(), -age))]
     if age <= max_age_days:
         return []
     return [Finding(WARNING, "stale", (
@@ -405,6 +517,14 @@ def report(findings, path, catalog, strict):
     return int(failed)
 
 
+class NotStandardJSON(ValueError):
+    """NaN, Infinity or -Infinity: Python's json accepts them, standard JSON does not."""
+
+
+def _no_constant(name):
+    raise NotStandardJSON(name)
+
+
 def _cannot_check(message):
     print(message, file=sys.stderr)
     sys.exit(2)
@@ -417,16 +537,43 @@ def load(path):
                       "the farm's site. Save the catalog from your browser and pass the saved "
                       "file with --file.")
     try:
+        if os.path.isdir(path):
+            _cannot_check("{} is a folder, not a file. Pass the catalog file itself with "
+                          "--file.".format(path))
+        if not stat.S_ISREG(os.stat(path).st_mode):
+            _cannot_check("{} is not an ordinary file (it may be a device or a pipe), so it was "
+                          "not read.".format(path))
+        # Read at most one byte past the limit: the size a file reports can be wrong, the read
+        # cannot.
+        with open(path, "rb") as fh:
+            raw = fh.read(MAX_BYTES + 1)
+        if len(raw) > MAX_BYTES:
+            _cannot_check("The file {} is larger than any catalog (the limit is {:,} bytes), so it "
+                          "was not read.".format(path, MAX_BYTES))
         # utf-8-sig also reads a file saved with a byte order mark, as some editors do.
-        with open(path, encoding="utf-8-sig") as fh:
-            return json.load(fh)
+        return json.loads(raw.decode("utf-8-sig"), parse_constant=_no_constant)
     except FileNotFoundError:
         _cannot_check("Could not find the file {}. Check the path, or leave out --file to check "
                       "the sample in fixtures/.".format(path))
+    except PermissionError:
+        _cannot_check("The file {} exists, but this account is not allowed to read it.".format(path))
+    except UnicodeDecodeError:
+        _cannot_check("The file {} is not text in UTF-8, the encoding the catalog is saved in, so "
+                      "it cannot be checked. It may be a different kind of file.".format(path))
     except json.JSONDecodeError as e:
         _cannot_check("The file {} is not valid JSON, the format the catalog is written in, so "
                       "it cannot be checked. The first mistake is on line {}, column {}: "
                       "{}.".format(path, e.lineno, e.colno, e.msg))
+    except NotStandardJSON as e:
+        _cannot_check("The file {} contains {}, which is not a number in standard JSON, so it "
+                      "cannot be checked.".format(path, e))
+    except RecursionError:
+        _cannot_check("The file {} is nested far too deeply to be a catalog, so it was not "
+                      "read.".format(path))
+    except ValueError as e:  # e.g. a number thousands of digits long (Python's int limit)
+        _cannot_check("The file {} could not be read as a catalog: {}.".format(path, _safe(e)))
+    except OSError as e:
+        _cannot_check("The file {} could not be read: {}.".format(path, e.strerror or e))
 
 
 # ------------------------------------------------------------------------------- self-test
@@ -526,7 +673,92 @@ CASES = [
      "how old its prices are"),
     ("stale snapshot", lambda c: c["x_shipley_provenance"].update(
         generated_at_utc="2026-09-26T00:59:05Z"), ["stale"], "36 days ago"),
+    # Hardening, 2026-11-18.
+    ("snapshot dated in the future", lambda c: c["x_shipley_provenance"].update(
+        generated_at_utc="2026-12-25T00:00:00Z"), ["future-date"], "in the future"),
+    ("terminal escape in a name", lambda c: (_item(c).update(name="Rib\u001b[2Jeye"),
+                                            _delete(_item(c), "image")), ["no-image"], "\\u001b"),
+    ("right-to-left override in a category", lambda c: _add_product(
+        c, sku="GB0001", name="Ground Beef", category="Ground\u202eBeef",
+        image="https://shipleyfarmsbeef.com/files/GB0001.png"), ["lonely-category"], "\\u202e"),
+    ("an entry that is not a product", lambda c: (c["itemListElement"].append("oops"),
+                                                  c.update(numberOfItems=4)), ["schema"], "list entry"),
+    # Final review, 2026-11-18.
+    ("a price too large to be real", lambda c: _item(c, 1)["offers"].update(price=10 ** 400),
+     ["absurd-price"], "cannot be a real price"),
+    ("infinity as a price", lambda c: _item(c, 1)["offers"].update(price=float("inf")),
+     ["absurd-price"], "cannot be a real price"),
+    ("a date that does not exist", lambda c: c["x_shipley_provenance"].update(
+        generated_at_utc="2026-02-30T00:00:00Z"), ["bad-date"], "not a real date"),
+    ("a lone surrogate in a name", lambda c: (_item(c).update(name="Rib\ud800eye"),
+                                             _delete(_item(c), "image")), ["no-image"], "\\ud800"),
+    ("a literal backslash-u in a name", lambda c: (_item(c).update(name="Rib\\u001beye"),
+                                                  _delete(_item(c), "image")), ["no-image"], "Rib\\\\u001beye"),
 ]
+
+# Raw control or invisible formatting characters must never reach a message.
+_UNSAFE = re.compile("[\x00-\x1f\x7f-\x9f\u200b-\u200f\u202a-\u202e\u2060-\u2069\ufeff\ud800-\udfff]")
+
+
+def _expect_exit(code, fn):
+    """True when fn() exits with `code`. Its refusal message is swallowed, to keep the run quiet."""
+    try:
+        with contextlib.redirect_stderr(io.StringIO()):
+            fn()
+    except SystemExit as e:
+        return e.code == code
+    return False
+
+
+def _hardening_tests(schema):
+    """(name, passed) for the protections that are not about catalog content."""
+    results = [("the real schema is sound", schema_errors(schema) == [])]
+    broken = {
+        "a $ref that loops": {"$defs": {"a": {"$ref": "#/$defs/a"}}, "items": {"$ref": "#/$defs/a"}},
+        "a $ref to another site": {"items": {"$ref": "https://example.com/schema.json"}},
+        "a $ref to nothing": {"items": {"$ref": "#/$defs/missing"}},
+        "an unknown type": {"type": "date"},
+        "a pattern that does not compile": {"type": "string", "pattern": "("},
+        "an unsupported keyword": {"type": "string", "format": "email"},
+    }
+    for what, bad in broken.items():
+        results.append(("a broken schema is caught: " + what, bool(schema_errors(bad))))
+    for what, value in (("a list", []), ("plain text", "catalog"), ("a number", 7)):
+        try:
+            check(value, schema, TODAY)
+            results.append(("{} instead of a catalog does not crash".format(what), True))
+        except Exception:  # noqa: BLE001 - the point is that nothing escapes
+            results.append(("{} instead of a catalog does not crash".format(what), False))
+    global MAX_BYTES
+    with tempfile.TemporaryDirectory() as tmp:
+        def write(name, data):
+            path = os.path.join(tmp, name)
+            with open(path, "wb") as fh:
+                fh.write(data)
+            return path
+        # Balanced, so it is valid JSON and only the depth can be what refuses it.
+        deep = write("deep.json", b"[" * 200000 + b"]" * 200000)
+        latin = write("latin.json", b"\xff\xfe\x00{")
+        nan = write("nan.json", b'{"price": NaN}')
+        digits = write("digits.json", b'{"price": ' + b"9" * 5000 + b"}")
+        results.append(("NaN is refused as not standard JSON", _expect_exit(2, lambda: load(nan))))
+        results.append(("a number thousands of digits long is refused", _expect_exit(2, lambda: load(digits))))
+        if hasattr(os, "mkfifo"):
+            pipe = os.path.join(tmp, "pipe.json")
+            os.mkfifo(pipe)
+            results.append(("a pipe is refused without being read", _expect_exit(2, lambda: load(pipe))))
+        big = write("big.json", b"{}" + b" " * 2048)
+        saved, MAX_BYTES = MAX_BYTES, 1024
+        try:
+            results.append(("an oversized file is refused", _expect_exit(2, lambda: load(big))))
+        finally:
+            MAX_BYTES = saved
+        results.append(("deeply nested JSON is refused", _expect_exit(2, lambda: load(deep))))
+        results.append(("a file that is not UTF-8 is refused", _expect_exit(2, lambda: load(latin))))
+        results.append(("a folder is refused", _expect_exit(2, lambda: load(tmp))))
+        results.append(("a web address is refused", _expect_exit(
+            2, lambda: load("https://shipleyfarmsbeef.com/files/catalog.json"))))
+    return results
 
 
 def self_test():
@@ -542,6 +774,11 @@ def self_test():
         catalog = _clean_catalog()
         breaks(catalog)
         findings = check(catalog, schema, TODAY)
+        leaked = [f.message for f in findings if _UNSAFE.search(f.message)]
+        if leaked:
+            print("FAIL  {}: a raw control character reached a message".format(name))
+            bad += 1
+            continue
         codes = sorted(f.code for f in findings)
         if codes != sorted(want_codes):
             print("FAIL  {}: found {}, wanted {}".format(name, codes, sorted(want_codes)))
@@ -566,10 +803,14 @@ def self_test():
         bad += 1
     else:
         print("ok    the fixture has no problems")
+    hardening = _hardening_tests(schema)
+    for name, passed in hardening:
+        print("{}  {}".format("ok  " if passed else "FAIL", name))
+        bad += 0 if passed else 1
     if bad:
         print("\n{} case(s) failed.".format(bad))
         return 1
-    print("\n{} cases pass.".format(len(CASES) + 2))
+    print("\n{} cases pass.".format(len(CASES) + 2 + len(hardening)))
     return 0
 
 
@@ -586,14 +827,50 @@ def main(argv=None):
     ap.add_argument("--self-test", action="store_true", help="check this script against known cases")
     args = ap.parse_args(argv)
 
+    # A terminal that cannot show a character (Windows cp1252, say) gets an escape instead of a
+    # crash halfway through the report.
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="backslashreplace")
+        except (AttributeError, ValueError):
+            pass
     if args.self_test:
-        return self_test()
-    with open(SCHEMA_PATH, encoding="utf-8") as fh:
-        schema = json.load(fh)
+        try:
+            return self_test()
+        except Exception as e:  # noqa: BLE001 - a broken self-test is the tool's fault, exit 3
+            print("The self-test itself failed to run ({}: {}). This is a bug in the tool.".format(
+                type(e).__name__, _safe(e)), file=sys.stderr)
+            return 3
+    if args.max_age_days < 0:
+        ap.error("--max-age-days cannot be negative")
+    schema = load_schema()
     catalog = load(args.file)
     today = args.today or datetime.datetime.now(datetime.timezone.utc).date()
-    findings = check(catalog, schema, today, args.max_age_days)
+    try:
+        findings = check(catalog, schema, today, args.max_age_days)
+    except Exception as e:  # a bug in this tool must never be mistaken for a clean catalog
+        print("validate_catalog.py hit an internal error and could not finish ({}: {}). This is "
+              "a bug in the tool, not a fault in your file; please report it.".format(
+                  type(e).__name__, _safe(e)), file=sys.stderr)
+        return 3
     return report(findings, args.file, catalog, args.strict)
+
+
+def load_schema():
+    """Read and vet catalog.schema.json, or exit 3: a broken schema is the tool's fault."""
+    try:
+        with open(SCHEMA_PATH, encoding="utf-8") as fh:
+            schema = json.load(fh)
+    except (OSError, ValueError) as e:
+        print("The schema file {} could not be read ({}). This is a bug in the tool, not a fault "
+              "in your file.".format(SCHEMA_PATH, e), file=sys.stderr)
+        sys.exit(3)
+    errors = schema_errors(schema)
+    if errors:
+        print("The schema file {} is broken, so nothing was checked. This is a bug in the tool, "
+              "not a fault in your file:\n  {}".format(SCHEMA_PATH, "\n  ".join(errors)), file=sys.stderr)
+        sys.exit(3)
+    return schema
 
 
 if __name__ == "__main__":
