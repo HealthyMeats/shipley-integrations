@@ -12,6 +12,7 @@ being on.
 
 | Contributor | Contribution | Merged |
 |---|---|---|
+| @AnushreeKasturi | Catalog schema validator, `tools/validate_catalog.py`, brief S4 ([#28](https://github.com/HealthyMeats/shipley-integrations/pull/28)) | 2026-11-18 |
 | @ItzSevrus | Typo fix on `/helloworld` ([#27](https://github.com/HealthyMeats/shipley-integrations/pull/27)) | 2026-11-10 |
 | @zheng-guannan577 | Typo fix on `/helloworld` ([#21](https://github.com/HealthyMeats/shipley-integrations/pull/21)) | 2026-11-07 |
 | @AnushreeKasturi | Typo fix on `/helloworld` ([#19](https://github.com/HealthyMeats/shipley-integrations/pull/19)) | 2026-11-02 |

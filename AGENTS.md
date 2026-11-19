@@ -26,7 +26,7 @@
 
 ## Before you open a pull request
 
-Run all six. They are fast, need no network, and CI runs the same ones:
+Run all seven. They are fast, need no network, and CI runs the same ones:
 
 ```bash
 python3 tools/validate.py
@@ -34,11 +34,13 @@ python3 tools/validate_disclosure.py
 python3 tools/validate_links.py
 python3 tools/validate_site.py
 python3 tools/validate_seed.py
+python3 tools/validate_catalog.py --self-test
 python3 examples/catalog_client.py --file fixtures/catalog.sample.json
 ```
 
 In order: integration manifests, nothing business-sensitive, farm links carry the right
-tracking parameters, pages published to the live site, the `/helloworld` typo relay, and the
+tracking parameters, pages published to the live site, the `/helloworld` typo relay, the
+catalog validator's own tests, and the
 example client against the fixture. CI also compiles every Python file and checks the DCO
 sign-off on each commit (`tools/check_signoff.py`).
 

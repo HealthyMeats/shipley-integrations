@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/HealthyMeats/shipley-integrations/blob/main/tools/catalog.schema.json",
+  "title": "catalog",
+  "description": "The Shipley Farms product catalog, as documented in docs/API.md. Each title and description is written for the person reading tools/validate_catalog.py's report, so it says what the field is and why it matters in plain words.",
+  "type": "object",
+  "required": ["@type", "numberOfItems", "itemListElement"],
+  "properties": {
+    "@type": {
+      "title": "file type (@type)",
+      "description": "It must be ItemList, the schema.org list type every integration expects to read.",
+      "const": "ItemList"
+    },
+    "numberOfItems": {
+      "title": "product count (numberOfItems)",
+      "description": "Integrations read this instead of counting, so it must be a whole number.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "x_shipley_provenance": {
+      "title": "provenance block (x_shipley_provenance)",
+      "description": "It says when the file was made, so integrations can tell how old the prices are.",
+      "type": "object",
+      "properties": {
+        "generated_at_utc": {
+          "title": "generation time (generated_at_utc)",
+          "description": "It must be a UTC time written like 2026-09-26T00:59:05Z, so integrations can tell how old the prices are.",
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        }
+      }
+    },
+    "itemListElement": {
+      "title": "product list (itemListElement)",
+      "description": "It must be a list, with one entry per product.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/listItem" }
+    }
+  },
+  "$defs": {
+    "listItem": {
+      "title": "list entry",
+      "description": "Each entry in the product list must hold one product under item.",
+      "type": "object",
+      "required": ["item"],
+      "properties": {
+        "position": {
+          "title": "position in the list",
+          "description": "Positions count up from 1.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "item": { "$ref": "#/$defs/product" }
+      }
+    },
+    "product": {
+      "title": "product",
+      "description": "Each entry in the product list must be a product with its details filled in.",
+      "type": "object",
+      "required": ["sku", "name", "url", "category", "brand"],
+      "properties": {
+        "@type": {
+          "title": "type (@type)",
+          "description": "It must be Product, the schema.org type integrations look for.",
+          "const": "Product"
+        },
+        "sku": {
+          "title": "product code (sku)",
+          "description": "Every product needs one, because other systems use it to tell products apart.",
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "title": "name",
+          "description": "It is the name shoppers see.",
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "title": "product page address (url)",
+          "description": "It must be a full web address on shipleyfarmsbeef.com, starting with https://, so links to the product work wherever the catalog is shown.",
+          "type": "string",
+          "pattern": "^https://shipleyfarmsbeef\\.com/"
+        },
+        "category": {
+          "title": "category",
+          "description": "Integrations group products by it, for example Dry-Aged Steaks or Ground Beef.",
+          "type": "string",
+          "minLength": 1
+        },
+        "brand": {
+          "title": "brand",
+          "description": "Every product carries the Shipley Farms brand.",
+          "type": "object",
+          "required": ["name"],
+          "properties": {
+            "name": {
+              "title": "brand name",
+              "description": "Every product carries the Shipley Farms brand.",
+              "const": "Shipley Farms"
+            }
+          }
+        },
+        "description": {
+          "title": "description",
+          "description": "It is the text shoppers read about the product.",
+          "type": "string"
+        },
+        "image": {
+          "title": "picture address (image)",
+          "description": "It must be a full web address starting with https://, or the picture will not load on other sites.",
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "offers": { "$ref": "#/$defs/offer" },
+        "x_shipley_catch_weight": {
+          "title": "sold-by-weight flag (x_shipley_catch_weight)",
+          "description": "It must be true or false, because integrations use it to label the price as an estimate.",
+          "type": "boolean"
+        },
+        "x_shipley_note": {
+          "title": "note (x_shipley_note)",
+          "description": "It must be text.",
+          "type": "string"
+        }
+      }
+    },
+    "offer": {
+      "title": "price details (offers)",
+      "description": "It must hold the price and its currency.",
+      "type": "object",
+      "required": ["price", "priceCurrency"],
+      "properties": {
+        "price": {
+          "title": "price",
+          "description": "Prices are in US dollars and must be more than zero.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "priceCurrency": {
+          "title": "currency",
+          "description": "The farm sells in US dollars only, and integrations assume it.",
+          "const": "USD"
+        },
+        "url": {
+          "title": "price page address",
+          "description": "It must be a full web address on shipleyfarmsbeef.com, starting with https://.",
+          "type": "string",
+          "pattern": "^https://shipleyfarmsbeef\\.com/"
+        },
+        "description": {
+          "title": "price note",
+          "description": "It must be text.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
