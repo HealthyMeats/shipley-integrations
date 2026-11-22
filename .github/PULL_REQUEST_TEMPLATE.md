@@ -14,10 +14,11 @@
 ## Want to be on the contributor map?
 
 <!-- Optional. CONTRIBUTORS.md has a map of where contributors are from. If you would like to
-     be on it, write the country you want listed (country only, never a city). Leave it blank
-     and you are still credited in the table, just not on the map. -->
+     be on it, write the country you want listed, and a city too if you would like that shown.
+     Leave it blank and you are still credited in the table, just not on the map. -->
 
 Country:
+City (optional):
 
 ## Anything we should know?
 

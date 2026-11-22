@@ -10,7 +10,7 @@ We are not going to inflate anyone's work. A typo fix is listed as a typo fix an
 integration is listed as a shipping integration. That honesty is what makes the list worth
 being on.
 
-| Contributor | Contribution | Country | Merged |
+| Contributor | Contribution | Location | Merged |
 |---|---|---|---|
 | @AnushreeKasturi | Catalog schema validator, `tools/validate_catalog.py`, brief S4 ([#28](https://github.com/HealthyMeats/shipley-integrations/pull/28)) | India | 2026-11-18 |
 | @ItzSevrus | Typo fix on `/helloworld` ([#27](https://github.com/HealthyMeats/shipley-integrations/pull/27)) | India | 2026-11-10 |
@@ -54,15 +54,16 @@ being on.
 ```
 <!-- contributor-map:end -->
 
-The map shows **countries only**, never a city, and only where a contributor told us: in their
-pull request, or in the location on their public GitHub profile.
-A `-` in the Country column means we do not know or you would rather not say, and that is
-completely fine; you are credited in the table either way.
+The map shows your **country**, and your **city too if you want it**. We only list what a
+contributor told us, in their pull request or in the location on their public GitHub profile,
+and we only ever add a city when you ask for one. A pin sits on the middle of the city or
+country, never on a street. A `-` in the Location column means we do not know or you would
+rather not say, and that is completely fine; you are credited in the table either way.
 
-**Want to be on the map?** Say which country you would like listed in your pull request
-(there is a line for it in the template). Already on the list and want to add, change or
-remove your country? Open an issue or a one-line pull request against this file and we will
-do it, no questions asked.
+**Want to be on the map?** Say which country you would like listed in your pull request, and
+add a city if you would like that shown too (there is a line for it in the template). Already
+on the list and want to add, change or remove your location? Open an issue or a one-line pull
+request against this file and we will do it, no questions asked.
 
 ## The typo relay
 
@@ -77,8 +78,8 @@ Have a pull request merged. That is the whole requirement. There is no minimum s
 first task on <https://shipleyfarmsbeef.com/helloworld?utm_source=github&utm_medium=repo&utm_campaign=shipley-integrations&utm_content=contributors> counts.
 
 Maintainers: add a row at the TOP of the table when you merge, in the same commit as the merge
-where practical. Fill in Country only from what the contributor told us in the pull request,
-then run `python3 tools/build_contributor_map.py` to redraw the map (CI fails if you forget). The table is newest first, so a row appended at the bottom contradicts the line
+where practical. Fill in Location (`Country`, or `City, Country` if they asked
+for a city) only from what the contributor told us in the pull request, then run `python3 tools/build_contributor_map.py` to redraw the map (CI fails if you forget). The table is newest first, so a row appended at the bottom contradicts the line
 under the heading. Use the contributor's preferred name and link their GitHub profile if they
 want it linked. Ask first rather than assuming; some people contribute under a name they do not
 want indexed.

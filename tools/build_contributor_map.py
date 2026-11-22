@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draw the contributor map in CONTRIBUTORS.md from the table's Country column.
+"""Draw the contributor map in CONTRIBUTORS.md from the table's Location column.
 
 The map is a ```geojson block, which GitHub renders as an interactive map. It is
 regenerated from the table, so the table stays the only thing a maintainer edits:
@@ -7,9 +7,11 @@ regenerated from the table, so the table stays the only thing a maintainer edits
     python3 tools/build_contributor_map.py           # rewrite the map block
     python3 tools/build_contributor_map.py --check   # CI: fail if the map is stale
 
-Country only, never a city. A pin sits on a fixed point for the country, not on
-anyone's town. A blank or "-" Country means the contributor did not ask to be on
-the map, and they are left off it. Stdlib only, no network.
+A Location is "Country" or, if the contributor asked for it, "City, Country". A
+country pin sits on a fixed point for the country; a city pin sits on the city
+centre, never a street. Cities are opt in: only list one the contributor gave us.
+A blank or "-" means they are not on the map. Stdlib only, no network, so a city
+not in CITIES below fails with the line to add rather than being geocoded.
 """
 import json
 import os
@@ -72,6 +74,22 @@ ALIASES = {
     "turkiye": "Turkey", "türkiye": "Turkey", "uae": "United Arab Emirates",
     "viet nam": "Vietnam", "the netherlands": "Netherlands", "holland": "Netherlands",
 }
+# Approximate city centre points, keyed (city, country), as (longitude, latitude).
+# Add a city the first time a contributor asks for it; the error prints the line.
+CITIES = {
+    ("Bengaluru", "India"): (77.59, 12.97), ("Mumbai", "India"): (72.88, 19.08),
+    ("New Delhi", "India"): (77.21, 28.61), ("Hyderabad", "India"): (78.49, 17.39),
+    ("Chennai", "India"): (80.27, 13.08), ("Pune", "India"): (73.86, 18.52),
+    ("Singapore", "Singapore"): (103.82, 1.35), ("Tokyo", "Japan"): (139.69, 35.69),
+    ("Beijing", "China"): (116.40, 39.90), ("Shanghai", "China"): (121.47, 31.23),
+    ("London", "United Kingdom"): (-0.13, 51.51), ("Berlin", "Germany"): (13.40, 52.52),
+    ("Paris", "France"): (2.35, 48.86), ("Lagos", "Nigeria"): (3.38, 6.52),
+    ("Nairobi", "Kenya"): (36.82, -1.29), ("Toronto", "Canada"): (-79.38, 43.65),
+    ("New York", "United States"): (-74.01, 40.71),
+    ("San Francisco", "United States"): (-122.42, 37.77),
+    ("Boone", "United States"): (-81.67, 36.22),
+    ("São Paulo", "Brazil"): (-46.63, -23.55), ("Sydney", "Australia"): (151.21, -33.87),
+}
 BLANK = {"", "-", "—", "–"}
 
 
@@ -85,16 +103,23 @@ def canonical(name):
     return ALIASES.get(key.lower())
 
 
+def city_key(city, country):
+    for (c, k) in CITIES:
+        if k == country and c.lower() == city.lower():
+            return (c, k)
+    return None
+
+
 def table_rows(text):
-    """Yield (handle, country) for each contributor row of the first table."""
+    """Yield (handle, location) for each contributor row of the first table."""
     lines = text.splitlines()
     header = next((i for i, l in enumerate(lines) if l.startswith("| Contributor")), None)
     if header is None:
         sys.exit("CONTRIBUTORS.md: no '| Contributor' table header found")
     cols = [c.strip().lower() for c in lines[header].strip().strip("|").split("|")]
-    if "country" not in cols:
-        sys.exit("CONTRIBUTORS.md: the table has no Country column")
-    ci = cols.index("country")
+    if "location" not in cols:
+        sys.exit("CONTRIBUTORS.md: the table has no Location column")
+    ci = cols.index("location")
     for line in lines[header + 2:]:
         if not line.startswith("|"):
             break
@@ -105,43 +130,58 @@ def table_rows(text):
 
 
 def build(text):
-    people = {}  # country -> sorted unique handles
+    people = {}  # (city or None, country) -> unique handles
     bad = []
     for handle, raw in table_rows(text):
         if raw in BLANK:
             continue
-        country = canonical(raw)
+        city, _, country_raw = raw.rpartition(",")
+        city = city.strip()
+        country = canonical(country_raw)
         if country is None:
-            bad.append((handle, raw))
+            bad.append(f"Unknown country {country_raw.strip()!r} for @{handle}. Use the English "
+                       f"short name, or add it to COUNTRIES in tools/build_contributor_map.py as "
+                       f'"{country_raw.strip()}": (longitude, latitude),')
             continue
-        people.setdefault(country, set()).add(handle)
+        key = (None, country)
+        if city:
+            key = city_key(city, country)
+            if key is None:
+                bad.append(f"Unknown city {city!r} in {country} for @{handle}. Add it to CITIES "
+                           f"in tools/build_contributor_map.py as "
+                           f'("{city}", "{country}"): (longitude, latitude),')
+                continue
+        people.setdefault(key, set()).add(handle)
     if bad:
-        for handle, raw in bad:
-            print(f"Unknown country {raw!r} for @{handle}. Use the English short name, "
-                  f"or add it to COUNTRIES in tools/build_contributor_map.py as "
-                  f'"{raw}": (longitude, latitude),', file=sys.stderr)
+        for line in bad:
+            print(line, file=sys.stderr)
         sys.exit(1)
 
     features = []
-    for country in sorted(people):
-        handles = sorted(people[country], key=str.lower)
+    for key in sorted(people, key=lambda k: (k[1], k[0] or "")):
+        city, country = key
+        handles = sorted(people[key], key=str.lower)
         n = len(handles)
-        lon, lat = COUNTRIES[country]
+        lon, lat = CITIES[key] if city else COUNTRIES[country]
+        props = {"country": country}
+        if city:
+            props["city"] = city
+        props.update({
+            "contributors": ", ".join("@" + h for h in handles),
+            "marker-size": "small" if n == 1 else "medium" if n < 5 else "large",
+            "marker-color": "#2f5d3a",
+        })
         features.append({
             "type": "Feature",
             "geometry": {"type": "Point", "coordinates": [lon, lat]},
-            "properties": {
-                "country": country,
-                "contributors": ", ".join("@" + h for h in handles),
-                "marker-size": "small" if n == 1 else "medium" if n < 5 else "large",
-                "marker-color": "#2f5d3a",
-            },
+            "properties": props,
         })
     geo = json.dumps({"type": "FeatureCollection", "features": features}, indent=2,
                      ensure_ascii=False)
-    total = sum(len(v) for v in people.values())
+    total = len(set().union(*people.values())) if people else 0
+    n_countries = len({k[1] for k in people})
     summary = (f"{total} contributor{'s' if total != 1 else ''} in "
-               f"{len(people)} {'country' if len(people) == 1 else 'countries'} "
+               f"{n_countries} {'country' if n_countries == 1 else 'countries'} "
                f"{'is' if total == 1 else 'are'} on the map.")
     block = f"{BEGIN}\n{summary}\n\n```geojson\n{geo}\n```\n{END}"
 
