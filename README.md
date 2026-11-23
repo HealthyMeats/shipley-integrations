@@ -121,7 +121,9 @@ That page is a real page on a working farm's storefront, not a sandbox. See [`si
 
 **Contributions here are citable.** A merged pull request is public and permanent, your name
 goes in [`CONTRIBUTORS.md`](CONTRIBUTORS.md), and if someone asks us to confirm you contributed,
-we will. See what we will and will not say about your work in that file.
+we will. See what we will and will not say about your work in that file. That file also has a
+map of where contributors are from; if you would like your country (and, optionally, your city) on
+it, say so in your pull request.
 
 Twenty project briefs at three difficulty levels, including analysis and design work for
 security and IT courses, are in [`docs/PROJECTS.md`](docs/PROJECTS.md). Instructors, start at

@@ -11,6 +11,15 @@
 - [ ] Tests and examples run offline against `fixtures/`, with no network calls
 - [ ] Catch weight prices are labelled as estimates, if this displays prices
 
+## Want to be on the contributor map?
+
+<!-- Optional. CONTRIBUTORS.md has a map of where contributors are from. If you would like to
+     be on it, write the country you want listed, and a city too if you would like that shown.
+     Leave it blank and you are still credited in the table, just not on the map. -->
+
+Country:
+City (optional):
+
 ## Anything we should know?
 
 <!-- Known gaps, things you want a second opinion on, or "none". -->
